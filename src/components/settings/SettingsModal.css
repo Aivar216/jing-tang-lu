@@ -1,0 +1,205 @@
+.settings-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.settings-modal {
+  background: var(--color-bg-panel);
+  border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-gold);
+  border-radius: 6px;
+  width: 520px;
+  max-width: 95vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.settings-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border-light);
+  font-size: var(--font-size-lg);
+  color: var(--color-ink);
+  flex-shrink: 0;
+}
+
+.settings-modal__header button {
+  color: var(--color-ink-faint);
+  font-size: var(--font-size-lg);
+  padding: 2px 6px;
+}
+
+.settings-modal__header button:hover {
+  color: var(--color-red);
+}
+
+.settings-modal__body {
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  overflow-y: auto;
+}
+
+.settings-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.settings-field__label {
+  font-size: var(--font-size-sm);
+  color: var(--color-ink);
+  font-weight: 600;
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-sm);
+}
+
+.settings-field__hint {
+  font-size: var(--font-size-xs);
+  color: var(--color-ink-faint);
+  font-weight: 400;
+}
+
+.settings-field__row {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.settings-input {
+  flex: 1;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-sm);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  transition: border-color 0.15s;
+  width: 100%;
+}
+
+.settings-input:focus {
+  outline: none;
+  border-color: var(--color-gold);
+}
+
+
+.settings-toggle-btn {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--color-bg-dark);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-xs);
+  color: var(--color-ink-faint);
+  white-space: nowrap;
+  font-family: var(--font-main);
+}
+
+.settings-toggle-btn:hover {
+  color: var(--color-ink);
+}
+
+/* Test result banner */
+.settings-test-result {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-mono);
+  line-height: 1.5;
+}
+
+.settings-test-result--testing {
+  background: #f5f0e8;
+  border: 1px solid var(--color-border-light);
+  color: var(--color-ink-faint);
+}
+
+.settings-test-result--ok {
+  background: #e8f5e8;
+  border: 1px solid #7ab87a;
+  color: var(--color-green);
+}
+
+.settings-test-result--fail {
+  background: #fde8e8;
+  border: 1px solid var(--color-red-light);
+  color: var(--color-red);
+  word-break: break-all;
+}
+
+.settings-saved {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: #e8f5e8;
+  border: 1px solid #7ab87a;
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-sm);
+  color: var(--color-green);
+}
+
+.settings-modal__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-top: 1px solid var(--color-border-light);
+  flex-shrink: 0;
+}
+
+.settings-btn {
+  padding: var(--spacing-xs) var(--spacing-lg);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-sm);
+  border: 1px solid;
+  font-family: var(--font-main);
+  transition: all 0.15s;
+}
+
+.settings-btn--reset {
+  margin-right: auto;
+  background: var(--color-bg-dark);
+  color: var(--color-ink-faint);
+  border-color: var(--color-border);
+}
+
+.settings-btn--reset:hover {
+  color: var(--color-red);
+  border-color: var(--color-red-light);
+}
+
+.settings-btn--test {
+  background: var(--color-bg-dark);
+  color: var(--color-accent);
+  border-color: var(--color-border);
+}
+
+.settings-btn--test:hover:not(:disabled) {
+  background: var(--color-bg);
+  border-color: var(--color-accent);
+}
+
+.settings-btn--cancel {
+  background: var(--color-bg-dark);
+  color: var(--color-ink-light);
+  border-color: var(--color-border);
+}
+
+.settings-btn--save {
+  background: var(--color-ink);
+  color: var(--color-gold-light);
+  border-color: var(--color-gold);
+}
+
+.settings-btn--save:hover {
+  background: var(--color-accent);
+}

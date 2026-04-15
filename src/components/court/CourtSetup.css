@@ -1,0 +1,132 @@
+.court-setup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.court-setup-modal {
+  background: var(--color-bg-panel);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  width: 420px;
+  max-width: 90vw;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.court-setup-modal__header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border-light);
+  font-size: var(--font-size-lg);
+  color: var(--color-ink);
+}
+
+.court-setup-modal__remaining {
+  flex: 1;
+  font-size: var(--font-size-xs);
+  color: var(--color-ink-faint);
+}
+
+.court-setup-modal__body {
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.court-setup-modal__hint {
+  font-size: var(--font-size-sm);
+  color: var(--color-ink-light);
+}
+
+.court-setup-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.court-setup-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  transition: all 0.15s;
+  min-width: 90px;
+}
+
+.court-setup-option:hover {
+  border-color: var(--color-gold-light);
+}
+
+.court-setup-option--selected {
+  background: var(--color-ink);
+  border-color: var(--color-gold);
+  color: var(--color-gold-light);
+}
+
+.court-setup-option__name {
+  font-size: var(--font-size-md);
+}
+
+.court-setup-option__title {
+  font-size: var(--font-size-xs);
+  opacity: 0.6;
+}
+
+.court-setup-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-top: 1px solid var(--color-border-light);
+}
+
+.court-setup-option__badge {
+  font-size: 0.62rem;
+  background: #fef5d8;
+  border: 1px solid var(--color-gold-light);
+  color: var(--color-gold);
+  padding: 1px 4px;
+  border-radius: 2px;
+  margin-top: 2px;
+}
+
+.court-setup-option:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* 二次确认区域 */
+.court-setup-confirm {
+  padding: var(--spacing-xl) var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  text-align: center;
+}
+
+.court-setup-confirm__icon {
+  font-size: 2.5rem;
+}
+
+.court-setup-confirm__text {
+  font-size: var(--font-size-sm);
+  color: var(--color-ink-light);
+  line-height: 1.8;
+}
+
+.court-setup-confirm__btns {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-sm);
+}

@@ -1,0 +1,70 @@
+import { useState } from 'react';
+import { useGame } from '../../state/GameContext';
+import { getCredibilityLabel, getCredibilityColor } from '../../utils/credibilityEngine';
+import { SettingsModal } from '../settings/SettingsModal';
+import { loadSettings } from '../../utils/settings';
+import './TopBar.css';
+
+const PERIOD_LABELS = {
+  morning: '上午（06:00-12:00）',
+  afternoon: '下午（12:00-18:00）',
+  evening: '傍晚（18:00-22:00）',
+};
+
+export function TopBar() {
+  const { state } = useGame();
+  const [showSettings, setShowSettings] = useState(false);
+
+  const apiKeySet = !!loadSettings().apiKey;
+
+  return (
+    <>
+      <div className="topbar">
+        <div className="topbar__title">惊堂录 · 沉香劫</div>
+
+        <div className="topbar__center">
+          <span className="topbar__day">第 {state.currentDay} 天 · {PERIOD_LABELS[state.currentPeriod]}</span>
+        </div>
+
+        <div className="topbar__stats">
+          <div className="topbar__stat">
+            <span className="topbar__stat-label">行动</span>
+            <div className="topbar__dots">
+              {[0, 1, 2].map(i => (
+                <span
+                  key={i}
+                  className={`topbar__dot ${i < state.actionPoints ? 'topbar__dot--active' : ''}`}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="topbar__stat">
+            <span className="topbar__stat-label">升堂</span>
+            <span className="topbar__stat-value">{state.courtSessionsRemaining}</span>
+          </div>
+
+          <div className="topbar__stat">
+            <span className="topbar__stat-label">声望</span>
+            <span
+              className="topbar__stat-value"
+              style={{ color: getCredibilityColor(state.credibilityScore) }}
+            >
+              {state.credibilityScore} · {getCredibilityLabel(state.credibilityScore)}
+            </span>
+          </div>
+
+          <button
+            className={`topbar__settings-btn ${!apiKeySet ? 'topbar__settings-btn--warn' : ''}`}
+            onClick={() => setShowSettings(true)}
+            title={apiKeySet ? 'API 设置' : '请先配置 API Key'}
+          >
+            {!apiKeySet ? '⚠ 配置 API' : '⚙ 设置'}
+          </button>
+        </div>
+      </div>
+
+      {showSettings && <SettingsModal onClose={() => setShowSettings(false)} />}
+    </>
+  );
+}

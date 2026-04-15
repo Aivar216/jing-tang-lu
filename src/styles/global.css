@@ -1,0 +1,109 @@
+@import './tokens.css';
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* 基准字号：让 100% 浏览器缩放时视觉等效于旧设计的 125% 缩放
+     所有 rem 单位自动随之放大；px 布局尺寸（topbar、sidebar）已在 tokens.css 微调 */
+  font-size: 20px;
+}
+
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-main);
+  /* font-size 继承自 html（20px），各组件用 --font-size-* rem 变量控制 */
+  font-size: var(--font-size-md);
+  line-height: 1.7;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+/* Selection */
+::selection {
+  background: var(--color-gold-light);
+  color: var(--color-ink);
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-main);
+  border: none;
+  background: none;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 等宽输入框：URL、API Key 用 mono；普通输入用 main */
+input, textarea, select {
+  font-family: var(--font-main);
+}
+/* .settings-input 内联覆盖为 mono，所以这里不影响 */
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--color-border-light);
+  margin: var(--spacing-sm) 0;
+}
+
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-size: var(--font-size-xs);
+  background: var(--color-bg-dark);
+  border: 1px solid var(--color-border-light);
+  color: var(--color-ink-light);
+}
+
+.tag--red {
+  background: #fde8e8;
+  border-color: var(--color-red-light);
+  color: var(--color-red);
+}
+
+.tag--gold {
+  background: #fef5d8;
+  border-color: var(--color-gold-light);
+  color: var(--color-gold);
+}
+
+.tag--green {
+  background: #e8f5e8;
+  border-color: #7ab87a;
+  color: var(--color-green);
+}
+
+.loading-dots::after {
+  content: '...';
+  animation: dots 1.2s steps(4, end) infinite;
+}
+
+@keyframes dots {
+  0%, 20% { content: '.'; }
+  40% { content: '..'; }
+  60%, 100% { content: '...'; }
+}

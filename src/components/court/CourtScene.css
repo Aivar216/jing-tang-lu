@@ -1,0 +1,310 @@
+.court-scene {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-court-bg);
+  color: var(--color-court-text);
+  overflow: hidden;
+}
+
+.court-scene__header {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid #4a3420;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  flex-shrink: 0;
+}
+
+.court-scene__title {
+  font-size: var(--font-size-xl);
+  color: var(--color-gold-light);
+  letter-spacing: 0.2em;
+}
+
+.court-scene__participants {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex: 1;
+}
+
+.court-scene__turns-left {
+  font-size: var(--font-size-xs);
+  color: var(--color-gold-light);
+  white-space: nowrap;
+  opacity: 0.8;
+}
+
+.court-scene__turns-left--low {
+  color: #f07070;
+  font-weight: 600;
+  opacity: 1;
+}
+
+.court-participant {
+  padding: 2px 12px;
+  background: rgba(200, 168, 75, 0.15);
+  border: 1px solid var(--color-gold);
+  border-radius: 2px;
+  font-size: var(--font-size-sm);
+  color: var(--color-gold-light);
+}
+
+.court-scene__opening {
+  padding: var(--spacing-lg);
+  text-align: center;
+  color: rgba(240, 232, 208, 0.6);
+  font-style: italic;
+  font-size: var(--font-size-sm);
+}
+
+.court-scene__turns {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-md) var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.court-turn {
+  max-width: 85%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.court-turn--player {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.court-turn--npc {
+  align-self: flex-start;
+}
+
+.court-turn--narrator {
+  align-self: center;
+  text-align: center;
+  max-width: 100%;
+}
+
+.court-turn--loading {
+  align-self: center;
+  color: rgba(240, 232, 208, 0.5);
+  font-style: italic;
+}
+
+.court-turn__speaker {
+  font-size: var(--font-size-xs);
+  color: var(--color-gold-light);
+  opacity: 0.7;
+}
+
+.court-turn__content {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 4px;
+  font-size: var(--font-size-sm);
+  line-height: 1.8;
+}
+
+.court-turn--player .court-turn__content {
+  background: rgba(139, 105, 20, 0.3);
+  border: 1px solid var(--color-gold);
+}
+
+.court-turn--npc .court-turn__content {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(240, 232, 208, 0.15);
+}
+
+.court-turn--narrator .court-turn__content {
+  color: var(--color-gold-light);
+  font-size: var(--font-size-sm);
+  font-style: italic;
+  background: none;
+  border: none;
+}
+
+.court-turn__evidence {
+  font-size: var(--font-size-xs);
+  color: var(--color-gold-light);
+  opacity: 0.7;
+}
+
+.court-error {
+  color: #f47a7a;
+  font-size: var(--font-size-sm);
+  padding: var(--spacing-sm);
+}
+
+/* Verdict */
+.court-verdict {
+  padding: var(--spacing-lg);
+  border-top: 1px solid #4a3420;
+  background: rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.court-verdict__prompt {
+  margin-bottom: var(--spacing-md);
+  color: var(--color-gold-light);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+.court-verdict__btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  justify-content: center;
+}
+
+.verdict-btn {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-sm);
+  transition: all 0.15s;
+  border: 1px solid;
+}
+
+.verdict-btn--arrest {
+  background: var(--color-red);
+  color: white;
+  border-color: var(--color-red-light);
+}
+
+.verdict-btn--arrest:hover {
+  background: var(--color-red-light);
+}
+
+.verdict-btn--release {
+  background: var(--color-green);
+  color: white;
+  border-color: #3a8c3a;
+}
+
+.verdict-btn--adjourn {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-court-text);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Input */
+.court-input {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-top: 1px solid #4a3420;
+  background: rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+.court-evidence-selector {
+  background: rgba(44, 26, 8, 0.95);
+  border: 1px solid var(--color-gold);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.court-evidence-selector__title {
+  font-size: var(--font-size-xs);
+  color: var(--color-gold-light);
+  margin-bottom: var(--spacing-xs);
+}
+
+.court-evidence-selector__empty {
+  font-size: var(--font-size-xs);
+  color: rgba(240, 232, 208, 0.5);
+}
+
+.evidence-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 4px 8px;
+  font-size: var(--font-size-xs);
+  color: var(--color-court-text);
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition: all 0.1s;
+}
+
+.evidence-option:hover {
+  background: rgba(200, 168, 75, 0.2);
+}
+
+.evidence-option--selected {
+  border-color: var(--color-gold);
+  background: rgba(200, 168, 75, 0.15);
+}
+
+.court-evidence-selector__close {
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-xs);
+  color: rgba(240, 232, 208, 0.5);
+}
+
+.court-input__row {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--spacing-sm);
+}
+
+.court-input__cited {
+  font-size: var(--font-size-xs);
+  color: var(--color-gold-light);
+  padding: 2px 6px;
+  background: rgba(200, 168, 75, 0.15);
+  border-radius: 2px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  align-self: flex-end;
+}
+
+.court-input__evidence-btn {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: rgba(200, 168, 75, 0.15);
+  border: 1px solid var(--color-gold);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-xs);
+  color: var(--color-gold-light);
+  white-space: nowrap;
+  align-self: flex-end;
+}
+
+.court-input__textarea {
+  flex: 1;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(200, 168, 75, 0.3);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-sm);
+  color: var(--color-court-text);
+  resize: none;
+  font-family: var(--font-main);
+}
+
+.court-input__textarea:focus {
+  outline: none;
+  border-color: var(--color-gold);
+}
+
+.court-input__send {
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: var(--color-gold);
+  color: var(--color-ink);
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-lg);
+  align-self: flex-end;
+  transition: all 0.15s;
+}
+
+.court-input__send:hover:not(:disabled) {
+  background: var(--color-gold-light);
+}

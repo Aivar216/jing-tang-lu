@@ -1,0 +1,48 @@
+:root {
+  /* Color palette - water-ink ancient Chinese aesthetic */
+  --color-bg: #f5f0e8;
+  --color-bg-dark: #ede5d5;
+  --color-bg-panel: #faf6ee;
+  --color-border: #c8b89a;
+  --color-border-light: #dfd0b8;
+  --color-ink: #2c2416;
+  --color-ink-light: #5a4a34;
+  --color-ink-faint: #9a8870;
+  --color-gold: #8b6914;
+  --color-gold-light: #c8a84b;
+  --color-red: #8b1a1a;
+  --color-red-light: #c44a4a;
+  --color-orange: #a05020;
+  --color-green: #2a5c2a;
+  --color-accent: #6b4423;
+  --color-player-bubble: #e8dfc8;
+  --color-npc-bubble: #f8f2e4;
+  --color-court-bg: #2c1a08;
+  --color-court-text: #f0e8d0;
+
+  /* Typography */
+  /* 中文：霞鹜文楷；英文/数字：系统衬线 → 行高适配更佳 */
+  --font-main: 'LXGW WenKai', 'Noto Serif SC', 'STSong', Georgia, serif;
+  /* 等宽（输入框、API Key、URL 等） */
+  --font-mono: 'DM Mono', 'Cascadia Code', 'Fira Code', monospace;
+  /* 字号标尺：基准 html font-size = 20px，各 rem 值已针对整体缩放优化 */
+  --font-size-xs: 0.65rem;   /* ~13px — 标签、角标 */
+  --font-size-sm: 0.8rem;    /* ~16px — 辅助正文 */
+  --font-size-md: 0.95rem;   /* ~19px — 主正文 */
+  --font-size-lg: 1.05rem;   /* ~21px — 小标题 */
+  --font-size-xl: 1.2rem;    /* ~24px — 标题 */
+  --font-size-2xl: 1.4rem;   /* ~28px — 大标题 */
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 14px;
+  --spacing-lg: 20px;
+  --spacing-xl: 28px;
+
+  /* Layout */
+  --sidebar-left-width: 240px;
+  --sidebar-right-width: 340px;
+  --topbar-height: 52px;
+  --border-radius: 4px;
+}

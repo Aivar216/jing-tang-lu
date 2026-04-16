@@ -60,10 +60,6 @@
   flex-shrink: 0;
 }
 
-/* 第三个筛选器（来源）占满整行 */
-.notebook-panel__filters .nb-filter-select:last-child {
-  grid-column: 1 / -1;
-}
 
 .nb-filter-select {
   width: 100%;

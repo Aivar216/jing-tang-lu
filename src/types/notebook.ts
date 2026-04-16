@@ -18,7 +18,10 @@ export interface Claim {
 
 export interface NotebookEntry {
   id: string;
-  speaker: NpcId;
+  /** NPC 来源（证词/观察类条目）；物证类条目可为空，使用 sourceLabel 显示 */
+  speaker?: NpcId;
+  /** 物证类条目的来源标签，如"现场勘查"、"仵作"、"差役报告" */
+  sourceLabel?: string;
   day: number;
   period: TimePeriod;
   claims: Claim[];

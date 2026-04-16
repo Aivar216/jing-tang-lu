@@ -9,12 +9,6 @@ interface Props {
   onClose: () => void;
 }
 
-const VALUE_LABEL: Record<string, string> = {
-  high: '★ 关键线索',
-  medium: '◆ 有一定价值',
-  low: '· 参考信息',
-};
-
 export function DeputyDispatch({ onClose }: Props) {
   const { dispatchDeputyByDef, canDispatch, activeTask, pendingResult, taskDefs } = useDeputy();
   const [selected, setSelected] = useState<DeputyTaskDef | null>(null);
@@ -78,7 +72,7 @@ export function DeputyDispatch({ onClose }: Props) {
               <div className="deputy-report__content">{pendingResult.report}</div>
               {pendingResult.evidenceUnlocked && (
                 <div className="deputy-report__evidence">
-                  ✦ 新证据已录入：查看证据栏获取详情
+                  ✦ 新线索已录入案卷
                 </div>
               )}
             </div>
@@ -118,6 +112,8 @@ export function DeputyDispatch({ onClose }: Props) {
     );
   }
 
+  const noTasks = surveillanceTasks.length === 0 && searchTasks.length === 0;
+
   return (
     <div className="deputy-modal-overlay" onClick={onClose}>
       <div className="deputy-modal deputy-modal--wide" onClick={e => e.stopPropagation()}>
@@ -131,59 +127,59 @@ export function DeputyDispatch({ onClose }: Props) {
             <div className="deputy-notice">今日已派出差役，请等待明日回报。</div>
           )}
 
-          <div className="deputy-section">
-            <div className="deputy-section__title">🔍 监视类</div>
-            <div className="deputy-task-list">
-              {surveillanceTasks.map(task => (
-                <button
-                  key={task.id}
-                  className={`deputy-task-card ${selected?.id === task.id ? 'deputy-task-card--selected' : ''}`}
-                  onClick={() => canDispatch && setSelected(task)}
-                  disabled={!canDispatch}
-                >
-                  <div className="deputy-task-card__top">
-                    <span className="deputy-task-card__label">{task.label}</span>
-                    <span className={`deputy-task-card__value deputy-task-card__value--${task.valueLevel}`}>
-                      {VALUE_LABEL[task.valueLevel]}
-                    </span>
-                  </div>
-                  <div className="deputy-task-card__desc">{task.description}</div>
-                  {task.targetNpcId && (
-                    <div className="deputy-task-card__target">
-                      目标：{NPC_DEFINITIONS.find(n => n.id === task.targetNpcId)?.name ?? task.targetNpcId}
-                    </div>
-                  )}
-                </button>
-              ))}
+          {noTasks && (
+            <div className="deputy-notice">
+              尚无可派遣的任务。先前往各地点、与相关人物交谈，才能掌握情况并安排调查。
             </div>
-          </div>
+          )}
 
-          <div className="deputy-section">
-            <div className="deputy-section__title">🗺 调查类</div>
-            <div className="deputy-task-list">
-              {searchTasks.map(task => (
-                <button
-                  key={task.id}
-                  className={`deputy-task-card ${selected?.id === task.id ? 'deputy-task-card--selected' : ''}`}
-                  onClick={() => canDispatch && setSelected(task)}
-                  disabled={!canDispatch}
-                >
-                  <div className="deputy-task-card__top">
-                    <span className="deputy-task-card__label">{task.label}</span>
-                    <span className={`deputy-task-card__value deputy-task-card__value--${task.valueLevel}`}>
-                      {VALUE_LABEL[task.valueLevel]}
-                    </span>
-                  </div>
-                  <div className="deputy-task-card__desc">{task.description}</div>
-                  {task.targetLocationId && (
-                    <div className="deputy-task-card__target">
-                      地点：{LOCATIONS.find(l => l.id === task.targetLocationId)?.name ?? task.targetLocationId}
-                    </div>
-                  )}
-                </button>
-              ))}
+          {surveillanceTasks.length > 0 && (
+            <div className="deputy-section">
+              <div className="deputy-section__title">🔍 监视类</div>
+              <div className="deputy-task-list">
+                {surveillanceTasks.map(task => (
+                  <button
+                    key={task.id}
+                    className={`deputy-task-card ${selected?.id === task.id ? 'deputy-task-card--selected' : ''}`}
+                    onClick={() => canDispatch && setSelected(task)}
+                    disabled={!canDispatch}
+                  >
+                    <div className="deputy-task-card__label">{task.label}</div>
+                    <div className="deputy-task-card__desc">{task.description}</div>
+                    {task.targetNpcId && (
+                      <div className="deputy-task-card__target">
+                        目标：{NPC_DEFINITIONS.find(n => n.id === task.targetNpcId)?.name ?? task.targetNpcId}
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+
+          {searchTasks.length > 0 && (
+            <div className="deputy-section">
+              <div className="deputy-section__title">🗺 调查类</div>
+              <div className="deputy-task-list">
+                {searchTasks.map(task => (
+                  <button
+                    key={task.id}
+                    className={`deputy-task-card ${selected?.id === task.id ? 'deputy-task-card--selected' : ''}`}
+                    onClick={() => canDispatch && setSelected(task)}
+                    disabled={!canDispatch}
+                  >
+                    <div className="deputy-task-card__label">{task.label}</div>
+                    <div className="deputy-task-card__desc">{task.description}</div>
+                    {task.targetLocationId && (
+                      <div className="deputy-task-card__target">
+                        地点：{LOCATIONS.find(l => l.id === task.targetLocationId)?.name ?? task.targetLocationId}
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {selected && (
             <div className="deputy-selected-summary">

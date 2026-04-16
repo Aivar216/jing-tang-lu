@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { loadSettings, saveSettings, DEFAULT_SETTINGS } from '../../utils/settings';
 import type { AppSettings } from '../../utils/settings';
 import { testConnection } from '../../api/client';
+import { clearSavedGame } from '../../state/GameContext';
 import './SettingsModal.css';
 
 interface Props {
@@ -14,6 +15,7 @@ export function SettingsModal({ onClose }: Props) {
   const [form, setForm] = useState<AppSettings>(() => loadSettings());
   const [saved, setSaved] = useState(false);
   const [showKey, setShowKey] = useState(false);
+  const [showApiTip, setShowApiTip] = useState(false);
   const [testStatus, setTestStatus] = useState<TestStatus>('idle');
   const [testMsg, setTestMsg] = useState('');
 
@@ -78,14 +80,22 @@ export function SettingsModal({ onClose }: Props) {
 
           {/* API Key */}
           <div className="settings-field">
-            <label className="settings-field__label">API Key</label>
+            <label className="settings-field__label">
+              API Key
+              <span className="settings-field__help" onClick={() => setShowApiTip(v => !v)}>?</span>
+            </label>
+            {showApiTip && (
+              <div className="settings-field__tip">
+                已有 API Key 可直接填写。如需申请，智谱（bigmodel.cn）新用户有免费额度，也可使用其他兼容 OpenAI 格式的平台（如 OpenRouter、月之暗面等）。
+              </div>
+            )}
             <div className="settings-field__row">
               <input
                 type={showKey ? 'text' : 'password'}
                 className="settings-input"
                 value={form.apiKey}
                 onChange={e => set('apiKey', e.target.value)}
-                placeholder="sk-..."
+                placeholder="智谱 API Key"
                 spellCheck={false}
                 autoComplete="off"
               />
@@ -106,7 +116,7 @@ export function SettingsModal({ onClose }: Props) {
               className="settings-input"
               value={form.baseURL}
               onChange={e => set('baseURL', e.target.value)}
-              placeholder="https://your-proxy.com/v1/chat/completions"
+              placeholder="https://open.bigmodel.cn/api/paas/v4"
               spellCheck={false}
             />
           </div>
@@ -122,7 +132,7 @@ export function SettingsModal({ onClose }: Props) {
               className="settings-input"
               value={form.npcModel}
               onChange={e => set('npcModel', e.target.value)}
-              placeholder="deepseek-v3"
+              placeholder="glm-4-plus"
               spellCheck={false}
             />
           </div>
@@ -130,7 +140,7 @@ export function SettingsModal({ onClose }: Props) {
           {/* Extractor Model */}
           <div className="settings-field">
             <label className="settings-field__label">
-              笔记提取模型
+              案卷提取模型
               <span className="settings-field__hint">建议用快速模型</span>
             </label>
             <input
@@ -138,7 +148,7 @@ export function SettingsModal({ onClose }: Props) {
               className="settings-input"
               value={form.extractorModel}
               onChange={e => set('extractorModel', e.target.value)}
-              placeholder="deepseek-v3"
+              placeholder="glm-4-flash"
               spellCheck={false}
             />
           </div>
@@ -157,22 +167,29 @@ export function SettingsModal({ onClose }: Props) {
         </div>
 
         <div className="settings-modal__footer">
-          <button className="settings-btn settings-btn--reset" onClick={handleReset}>
-            恢复默认
-          </button>
-          <button
-            className="settings-btn settings-btn--test"
-            onClick={handleTest}
-            disabled={testStatus === 'testing'}
-          >
-            {testStatus === 'testing' ? '测试中…' : '测试连接'}
-          </button>
-          <button className="settings-btn settings-btn--cancel" onClick={onClose}>
-            取消
-          </button>
-          <button className="settings-btn settings-btn--save" onClick={handleSave}>
-            保存
-          </button>
+          <div className="settings-footer__left">
+            <button className="settings-btn settings-btn--reset" onClick={handleReset}>
+              恢复默认
+            </button>
+            <button
+              className="settings-btn settings-btn--clear-save"
+              onClick={() => { if (window.confirm('确认清除存档？当前进度将丢失，游戏将重新开始。')) { clearSavedGame(); window.location.reload(); } }}
+            >
+              清除存档
+            </button>
+          </div>
+          <div className="settings-footer__right">
+            <button
+              className="settings-btn settings-btn--test"
+              onClick={handleTest}
+              disabled={testStatus === 'testing'}
+            >
+              {testStatus === 'testing' ? '测试中…' : '测试连接'}
+            </button>
+            <button className="settings-btn settings-btn--save" onClick={handleSave}>
+              保存
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -47,7 +47,7 @@ export function buildCourtNarratorClosing(): string {
   return '李明德躬身道：「大人，双方各执一词，是否作出定断？」';
 }
 
-export const COURT_MAX_TURNS = 5;
+export const COURT_MAX_TURNS = 3;
 
 export function shouldForceConclude(turnCount: number): boolean {
   return turnCount >= COURT_MAX_TURNS;

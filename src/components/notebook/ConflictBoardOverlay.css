@@ -1,0 +1,120 @@
+/* ── 全屏叠加层 ── */
+.conflict-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  background: rgba(20, 12, 5, 0.85);
+  backdrop-filter: blur(4px);
+}
+
+/* ── 顶部栏 ── */
+.conflict-overlay__header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px;
+  background: var(--color-bg-dark, #1a0f05);
+  border-bottom: 1px solid var(--color-border, #c8a96e);
+  flex-shrink: 0;
+}
+
+.conflict-overlay__title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-accent, #c8a96e);
+  letter-spacing: 0.15em;
+}
+
+.conflict-overlay__hint {
+  flex: 1;
+  font-size: 0.8rem;
+  color: var(--color-ink-faint, #a08060);
+}
+
+.conflict-overlay__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.conflict-overlay__btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-border, #c8a96e);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--color-ink-faint, #a08060);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.conflict-overlay__btn:hover {
+  background: var(--color-bg, #2a1a0a);
+  color: var(--color-accent, #c8a96e);
+}
+
+.conflict-overlay__btn--close:hover {
+  background: #8b1a1a;
+  color: #fff;
+  border-color: #8b1a1a;
+}
+
+/* ── 画布区域 ── */
+.conflict-overlay__body {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+}
+
+/* ── 最小化浮动条 ── */
+.conflict-minibar {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  background: var(--color-bg-dark, #1a0f05);
+  border: 1px solid var(--color-border, #c8a96e);
+  border-radius: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.conflict-minibar:hover {
+  background: var(--color-bg, #2a1a0a);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+
+.conflict-minibar__icon {
+  font-size: 1.1rem;
+}
+
+.conflict-minibar__text {
+  font-size: 0.85rem;
+  color: var(--color-accent, #c8a96e);
+  font-weight: 600;
+}
+
+.conflict-minibar__badge {
+  font-size: 0.75rem;
+  color: #8b1a1a;
+  background: rgba(139, 26, 26, 0.15);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.conflict-minibar__hint {
+  font-size: 0.72rem;
+  color: var(--color-ink-faint, #a08060);
+}

@@ -51,6 +51,12 @@ export interface GameState {
   storyLog: StoryLogEntry[];
   tutorialStep: number;
   activeConversationNpc: import('./npc').NpcId | null;
+  /** v3: 已接触过的NPC（用于差役任务动态过滤） */
+  visitedNpcIds: import('./npc').NpcId[];
+  /** v3: 已到访过的地点（用于差役任务动态过滤） */
+  visitedLocationIds: LocationId[];
+  /** v3: NPC 是否进入警觉状态（刘万全警觉后提前触发账本销毁事件） */
+  npcAlerted: Partial<Record<import('./npc').NpcId, boolean>>;
 }
 
 /** 剧情日志条目 */
@@ -94,4 +100,5 @@ export type GameAction =
   | { type: 'ADD_NOTEBOOK_ENTRY'; entry: import('./notebook').NotebookEntry }
   | { type: 'ADD_STORY_LOG'; entry: StoryLogEntry }
   | { type: 'USE_PRESSURE'; npcId: import('./npc').NpcId }
-  | { type: 'ADD_CONFLICT_RECORD'; record: import('./notebook').ConflictRecord };
+  | { type: 'ADD_CONFLICT_RECORD'; record: import('./notebook').ConflictRecord }
+  | { type: 'SET_NPC_ALERTED'; npcId: import('./npc').NpcId };

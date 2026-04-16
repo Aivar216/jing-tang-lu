@@ -1,14 +1,19 @@
 import type { GameState, GameAction } from '../types/game';
+import { EVIDENCE_DEFINITIONS } from '../data/case/evidenceDefinitions';
 
 export function gameReducer(state: GameState, action: GameAction): GameState {
   switch (action.type) {
     case 'START_CONVERSATION': {
       if (state.actionPoints <= 0) return state;
+      const alreadyVisitedNpc = state.visitedNpcIds.includes(action.npcId);
       return {
         ...state,
         gamePhase: 'investigation',
         activeConversationNpc: action.npcId,
         actionPoints: state.actionPoints - 1,
+        visitedNpcIds: alreadyVisitedNpc
+          ? state.visitedNpcIds
+          : [...state.visitedNpcIds, action.npcId],
       };
     }
 
@@ -50,10 +55,14 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
     }
 
     case 'MOVE_TO_LOCATION': {
+      const alreadyVisitedLoc = state.visitedLocationIds.includes(action.locationId);
       return {
         ...state,
         currentLocation: action.locationId,
         activeConversationNpc: null,
+        visitedLocationIds: alreadyVisitedLoc
+          ? state.visitedLocationIds
+          : [...state.visitedLocationIds, action.locationId],
       };
     }
 
@@ -80,9 +89,29 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 
     case 'ADD_EVIDENCE': {
       if (state.evidenceFound.includes(action.evidenceId)) return state;
+      // 自动同步：将物证录入案卷
+      const evDef = EVIDENCE_DEFINITIONS.find(e => e.id === action.evidenceId);
+      const autoEntry = evDef ? {
+        id: `evidence_auto_${action.evidenceId}`,
+        sourceLabel: evDef.sourceLabel ?? '现场勘查',
+        day: state.currentDay,
+        period: state.currentPeriod,
+        claims: [{
+          id: `claim_ev_${action.evidenceId}`,
+          content: evDef.description,
+          category: 'object' as const,
+        }],
+        rawDialogueSummary: evDef.title,
+        entryType: (evDef.entryType ?? 'physical') as 'physical' | 'observation',
+      } : null;
+      // 避免重复（如已有相同 id 的条目）
+      const alreadyInNotebook = state.notebookEntries.some(e => e.id === `evidence_auto_${action.evidenceId}`);
       return {
         ...state,
         evidenceFound: [...state.evidenceFound, action.evidenceId],
+        notebookEntries: autoEntry && !alreadyInNotebook
+          ? [...state.notebookEntries, autoEntry]
+          : state.notebookEntries,
       };
     }
 
@@ -203,14 +232,10 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
     }
 
     case 'MAKE_ACCUSATION': {
-      let credDelta = 0;
-      if (!action.accusation.wasCorrect) {
-        credDelta = -15;
-      }
       return {
         ...state,
         accusationsMade: [...state.accusationsMade, action.accusation],
-        credibilityScore: Math.max(0, state.credibilityScore + credDelta),
+        // 声望扣除由调用方通过 CHANGE_CREDIBILITY 显式发起，此处不重复扣
       };
     }
 
@@ -257,6 +282,13 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
           ...state.pressureUsed,
           [action.npcId]: Math.min(current + 1, 2),
         },
+      };
+    }
+
+    case 'SET_NPC_ALERTED': {
+      return {
+        ...state,
+        npcAlerted: { ...state.npcAlerted, [action.npcId]: true },
       };
     }
 

@@ -1,6 +1,36 @@
 import { useRef, useEffect } from 'react';
 import { useGame } from '../../state/GameContext';
+import type { StoryLogEntry } from '../../types/game';
 import './StoryLogPanel.css';
+
+/** 将条目拼成第三人称叙事段落 */
+function formatAsProse(entry: StoryLogEntry): string {
+  switch (entry.type) {
+    case 'narration':
+      // 旁白类型（含AI生成的旁白）直接用正文
+      if (entry.title.includes('旁白')) return entry.content;
+      // 问询类型：title 是 NPC 名
+      if (entry.title.startsWith('问询')) {
+        const npcName = entry.title.replace('问询', '');
+        return `大人传唤${npcName}问话。${entry.content}`;
+      }
+      // 教程等已有完整叙事的条目，直接用 content
+      return entry.content;
+    case 'evidence': {
+      const evName = entry.title.replace('发现：', '');
+      if (entry.content.includes('有所发现')) {
+        return entry.content.replace('有所发现', `搜得${evName}。`);
+      }
+      return `于现场搜得${evName}。${entry.content}`;
+    }
+    case 'court':
+      return entry.content;
+    case 'event':
+      return entry.content;
+    default:
+      return entry.content;
+  }
+}
 
 export function StoryLogPanel() {
   const { state } = useGame();
@@ -13,11 +43,6 @@ export function StoryLogPanel() {
 
   return (
     <div className="story-log-panel">
-      <div className="story-log-panel__header">
-        <span className="story-log-panel__title">剧情记录</span>
-        <span className="story-log-panel__count">{state.storyLog.length} 条</span>
-      </div>
-
       <div className="story-log-panel__entries">
         {state.storyLog.length === 0 && (
           <div className="story-log-panel__empty">
@@ -33,13 +58,11 @@ export function StoryLogPanel() {
               {showDayHeader && (
                 <div className="story-log-day-divider">第 {entry.day} 天</div>
               )}
-              <div className={`sl-entry sl-entry--${entry.type}`}>
-                <div className="sl-entry__icon">{entry.icon}</div>
-                <div className="sl-entry__body">
-                  <div className="sl-entry__title">{entry.title}</div>
-                  <div className="sl-entry__content">{entry.content}</div>
-                </div>
-              </div>
+              {entry.type === 'day_change' ? (
+                <div className="sl-day-change">{entry.content}</div>
+              ) : (
+                <p className="sl-prose-entry">{formatAsProse(entry)}</p>
+              )}
             </div>
           );
         })}

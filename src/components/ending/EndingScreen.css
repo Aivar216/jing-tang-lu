@@ -26,12 +26,33 @@
   letter-spacing: 0.2em;
   padding: var(--spacing-sm) var(--spacing-lg);
   border-radius: var(--border-radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.ending-screen__badge-sub {
+  font-size: var(--font-size-xs);
+  opacity: 0.7;
+  letter-spacing: 0.3em;
+}
+
+.ending-screen__badge-title {
+  font-size: var(--font-size-xl);
+  letter-spacing: 0.2em;
 }
 
 .ending-screen__badge--perfect {
   color: var(--color-gold-light);
   border: 1px solid var(--color-gold);
   background: rgba(200, 168, 75, 0.15);
+}
+
+.ending-screen__badge--insight {
+  color: #a8c8e8;
+  border: 1px solid #4a8cba;
+  background: rgba(74, 140, 186, 0.1);
 }
 
 .ending-screen__badge--basic {
@@ -65,7 +86,7 @@
 
 .ending-screen__stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: var(--spacing-md);
   border-top: 1px solid rgba(200, 168, 75, 0.2);
   border-bottom: 1px solid rgba(200, 168, 75, 0.2);
@@ -110,33 +131,6 @@
   white-space: pre-line;
 }
 
-/* 新增结局徽章子项 */
-.ending-screen__badge {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.ending-screen__badge-sub {
-  font-size: var(--font-size-xs);
-  opacity: 0.7;
-  letter-spacing: 0.3em;
-}
-
-.ending-screen__badge-title {
-  font-size: var(--font-size-xl);
-  letter-spacing: 0.2em;
-}
-
-/* 洞察结局颜色 */
-.ending-screen__badge--insight {
-  color: #a8c8e8;
-  border: 1px solid #4a8cba;
-  background: rgba(74, 140, 186, 0.1);
-}
-
-/* 提示文字 */
 .ending-screen__hint {
   margin-top: var(--spacing-sm);
   font-size: var(--font-size-xs);
@@ -146,75 +140,7 @@
   padding-top: var(--spacing-sm);
 }
 
-/* 统计格子数量调整 */
-.ending-screen__stats {
-  grid-template-columns: repeat(5, 1fr);
-}
-
-/* 4种结局一览 */
-.ending-screen__all-endings {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-}
-
-.ending-screen__all-endings-label {
-  font-size: var(--font-size-xs);
-  color: rgba(240, 232, 208, 0.4);
-  text-align: center;
-  letter-spacing: 0.1em;
-}
-
-.ending-screen__endings-row {
-  display: flex;
-  gap: var(--spacing-sm);
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.ending-chip {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 8px 14px;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(0, 0, 0, 0.2);
-  opacity: 0.45;
-  position: relative;
-  min-width: 80px;
-  gap: 2px;
-}
-
-.ending-chip--achieved {
-  opacity: 1;
-  border-color: rgba(200, 168, 75, 0.4);
-}
-
-.ending-chip--perfect.ending-chip--achieved { border-color: var(--color-gold); background: rgba(200, 168, 75, 0.1); }
-.ending-chip--insight.ending-chip--achieved { border-color: #4a8cba; background: rgba(74, 140, 186, 0.08); }
-.ending-chip--basic.ending-chip--achieved { border-color: #3a8c6a; background: rgba(58, 140, 106, 0.08); }
-.ending-chip--failure.ending-chip--achieved { border-color: var(--color-red); background: rgba(139, 26, 26, 0.1); }
-
-.ending-chip__sub {
-  font-size: 0.62rem;
-  color: rgba(240, 232, 208, 0.5);
-}
-
-.ending-chip__title {
-  font-size: var(--font-size-xs);
-  color: rgba(240, 232, 208, 0.8);
-}
-
-.ending-chip__star {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  font-size: 0.6rem;
-  color: var(--color-gold-light);
-}
-
-/* 操作按钮 */
+/* ── 操作按钮 ── */
 .ending-screen__actions {
   display: flex;
   justify-content: center;
@@ -240,7 +166,115 @@
   background: rgba(200, 168, 75, 0.2);
 }
 
-/* 探案记录全屏 */
+.ending-btn--next {
+  background: rgba(200, 168, 75, 0.15);
+  border-color: var(--color-gold);
+  color: var(--color-gold-light);
+  letter-spacing: 0.15em;
+}
+
+.ending-btn--next:hover {
+  background: rgba(200, 168, 75, 0.3);
+}
+
+.ending-btn--restart {
+  background: rgba(0, 0, 0, 0.2);
+  border-color: rgba(240, 232, 208, 0.15);
+  color: rgba(240, 232, 208, 0.45);
+}
+
+.ending-btn--restart:hover {
+  background: rgba(0, 0, 0, 0.35);
+  color: rgba(240, 232, 208, 0.75);
+}
+
+/* ── 下一案 — 全屏浮层 ── */
+.next-case-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: overlay-in 0.3s ease-out;
+}
+
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.next-case-card {
+  max-width: 440px;
+  width: 90%;
+  background: rgba(30, 18, 6, 0.98);
+  border: 1px solid var(--color-gold);
+  border-radius: 8px;
+  padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-lg);
+  text-align: center;
+  color: var(--color-court-text);
+  animation: card-rise 0.4s ease-out;
+}
+
+@keyframes card-rise {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.next-case-card__series {
+  font-size: var(--font-size-xs);
+  color: rgba(200, 168, 75, 0.5);
+  letter-spacing: 0.3em;
+  margin-bottom: var(--spacing-sm);
+}
+
+.next-case-card__title {
+  font-size: var(--font-size-xl);
+  color: var(--color-gold-light);
+  letter-spacing: 0.15em;
+  margin-bottom: var(--spacing-md);
+}
+
+.next-case-card__divider {
+  width: 40px;
+  height: 1px;
+  background: rgba(200, 168, 75, 0.3);
+  margin: 0 auto var(--spacing-md);
+}
+
+.next-case-card__body {
+  font-size: var(--font-size-sm);
+  color: rgba(240, 232, 208, 0.7);
+  line-height: 2.2;
+}
+
+.next-case-card__thanks {
+  margin-top: var(--spacing-lg);
+  font-size: var(--font-size-xs);
+  color: rgba(240, 232, 208, 0.25);
+  letter-spacing: 0.15em;
+}
+
+.next-case-card__close {
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-lg);
+  background: none;
+  border: 1px solid rgba(200, 168, 75, 0.3);
+  border-radius: var(--border-radius);
+  color: rgba(240, 232, 208, 0.5);
+  font-size: var(--font-size-xs);
+  font-family: var(--font-main);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.next-case-card__close:hover {
+  color: var(--color-gold-light);
+  border-color: var(--color-gold-light);
+}
+
+/* ── 探案记录全屏 ── */
 .ending-screen__card--log {
   max-width: 780px;
   max-height: 82vh;

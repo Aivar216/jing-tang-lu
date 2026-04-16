@@ -121,31 +121,26 @@ export function CourtScene() {
             >
               证据不足，暂时释放
             </button>
-            <button
-              className="verdict-btn verdict-btn--adjourn"
-              onClick={() => handleVerdict('adjourn')}
-            >
-              暂不定论，继续调查
-            </button>
           </div>
         </div>
       ) : (
         <div className="court-input">
           {showEvidenceSelector && (
             <div className="court-evidence-selector">
-              <div className="court-evidence-selector__title">选择引用笔记（点击选中）：</div>
+              <div className="court-evidence-selector__title">选择引用案卷记录（点击选中）：</div>
               {allNotebookEntries.length === 0 ? (
-                <div className="court-evidence-selector__empty">暂无笔记条目可引用</div>
+                <div className="court-evidence-selector__empty">暂无案卷记录可引用</div>
               ) : (
                 allNotebookEntries.map(entry => {
-                  const npcDef = NPC_DEFINITIONS.find(n => n.id === entry.speaker);
+                  const npcDef = entry.speaker ? NPC_DEFINITIONS.find(n => n.id === entry.speaker) : null;
+                  const speakerLabel = npcDef?.name ?? entry.sourceLabel ?? '物证';
                   return (
                     <button
                       key={entry.id}
                       className={`evidence-option ${citedEntryId === entry.id ? 'evidence-option--selected' : ''}`}
                       onClick={() => { setCitedEntryId(entry.id); setShowEvidenceSelector(false); }}
                     >
-                      <span className="evidence-option__speaker">[{npcDef?.name ?? entry.speaker}]</span>
+                      <span className="evidence-option__speaker">[{speakerLabel}]</span>
                       {/* Bug #5: 显示完整原文 */}
                       {entry.rawDialogueSummary}
                     </button>
@@ -164,7 +159,7 @@ export function CourtScene() {
               </div>
             )}
             <button className="court-input__evidence-btn" onClick={() => setShowEvidenceSelector(s => !s)}>
-              引用笔记
+              引用记录
             </button>
             <textarea
               ref={inputRef}

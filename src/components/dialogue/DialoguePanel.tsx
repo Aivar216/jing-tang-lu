@@ -71,7 +71,7 @@ export function DialoguePanel({ npcId }: Props) {
         {history.length === 0 && (
           <div className="dialogue-messages__empty">
             <p>大人可向{npcDef?.name}问询任何事项。</p>
-            <p className="hint">可使用下方「施压」按钮逼问，或「出示笔记」将证据摆到对方面前。</p>
+            <p className="hint">可使用下方「施压」按钮逼问，或「出示记录」将证据摆到对方面前。</p>
           </div>
         )}
 
@@ -104,20 +104,21 @@ export function DialoguePanel({ npcId }: Props) {
       {/* 笔记选择浮层 */}
       {showNoteSelector && (
         <div className="dialogue-note-selector">
-          <div className="dialogue-note-selector__title">选择要出示的笔记：</div>
+          <div className="dialogue-note-selector__title">选择要出示的案卷记录：</div>
           {allEntries.length === 0 ? (
-            <div className="dialogue-note-selector__empty">暂无笔记可出示</div>
+            <div className="dialogue-note-selector__empty">暂无案卷记录可出示</div>
           ) : (
             <div className="dialogue-note-selector__list">
               {allEntries.map(entry => {
-                const speakerDef = NPC_DEFINITIONS.find(n => n.id === entry.speaker);
+                const speakerDef = entry.speaker ? NPC_DEFINITIONS.find(n => n.id === entry.speaker) : null;
+                const speakerLabel = speakerDef?.name ?? entry.sourceLabel ?? '物证';
                 return (
                   <button
                     key={entry.id}
                     className={`note-option ${citedEntry?.id === entry.id ? 'note-option--selected' : ''}`}
                     onClick={() => { setCitedEntry(entry); setShowNoteSelector(false); }}
                   >
-                    <span className="note-option__speaker">[{speakerDef?.name ?? entry.speaker}]</span>
+                    <span className="note-option__speaker">[{speakerLabel}]</span>
                     {entry.rawDialogueSummary}
                   </button>
                 );
@@ -147,16 +148,16 @@ export function DialoguePanel({ npcId }: Props) {
           className={`dialogue-action-btn dialogue-action-btn--note ${citedEntry ? 'dialogue-action-btn--has-note' : ''}`}
           onClick={() => setShowNoteSelector(s => !s)}
         >
-          {citedEntry ? '📋 已选笔记 ✓' : '📋 出示笔记'}
+          {citedEntry ? '📋 已选记录 ✓' : '📋 出示记录'}
         </button>
       </div>
 
-      {/* 已选笔记预览条 */}
+      {/* 出示记录 — 浮动卡片 */}
       {citedEntry && (
-        <div className="dialogue-cited-bar">
-          <span className="dialogue-cited-bar__label">出示：</span>
-          <span className="dialogue-cited-bar__content">「{citedEntry.rawDialogueSummary}」</span>
-          <button className="dialogue-cited-bar__remove" onClick={() => setCitedEntry(null)}>✕</button>
+        <div className="dialogue-cited-card">
+          <div className="dialogue-cited-card__label">出示</div>
+          <div className="dialogue-cited-card__content">「{citedEntry.rawDialogueSummary}」</div>
+          <button className="dialogue-cited-card__remove" onClick={() => setCitedEntry(null)}>✕</button>
         </div>
       )}
 

@@ -8,22 +8,6 @@ export function useNotebook(filter: NotebookFilter = {}) {
   const filteredEntries = useMemo(() => {
     return state.notebookEntries.filter(entry => {
       if (filter.person && entry.speaker !== filter.person) return false;
-      if (filter.category) {
-        const hasCat = entry.claims.some(c => c.category === filter.category);
-        if (!hasCat) return false;
-      }
-      if (filter.time) {
-        const hasTime = entry.claims.some(
-          c => c.relatedTime?.includes(filter.time!)
-        );
-        if (!hasTime) return false;
-      }
-      if (filter.location) {
-        const hasLoc = entry.claims.some(
-          c => c.relatedLocation?.includes(filter.location as string)
-        );
-        if (!hasLoc) return false;
-      }
       if (filter.entryType) {
         if (entry.entryType !== filter.entryType) return false;
       }

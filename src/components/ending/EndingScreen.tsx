@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { useGame } from '../../state/GameContext';
-import { evaluateFinalJudgment, ENDING_TEXTS, ALL_ENDINGS } from '../../utils/endingJudge';
+import { useGame, clearSavedGame } from '../../state/GameContext';
+import { evaluateFinalJudgment, ENDING_TEXTS } from '../../utils/endingJudge';
 import { NPC_DEFINITIONS } from '../../data/case/npcDefinitions';
 import './EndingScreen.css';
 
 export function EndingScreen() {
   const { state } = useGame();
   const [showStoryLog, setShowStoryLog] = useState(false);
+  const [showNextCase, setShowNextCase] = useState(false);
 
   const killerAccusation = state.accusationsMade
     .filter(a => a.context === 'final_judgment')
@@ -38,6 +39,11 @@ export function EndingScreen() {
   const mastermindDef = mastermindAccusation
     ? NPC_DEFINITIONS.find(n => n.id === mastermindAccusation.accusedNpcId)
     : null;
+
+  const handleRestart = () => {
+    clearSavedGame();
+    window.location.reload();
+  };
 
   if (showStoryLog) {
     return (
@@ -119,30 +125,36 @@ export function EndingScreen() {
           )}
         </div>
 
-        {/* 4种结局一览 */}
-        <div className="ending-screen__all-endings">
-          <div className="ending-screen__all-endings-label">本案共有 4 种结局</div>
-          <div className="ending-screen__endings-row">
-            {ALL_ENDINGS.map(e => (
-              <div
-                key={e.type}
-                className={`ending-chip ending-chip--${e.type} ${result.ending === e.type ? 'ending-chip--achieved' : ''}`}
-              >
-                <span className="ending-chip__sub">{e.subtitle}</span>
-                <span className="ending-chip__title">「{e.title}」</span>
-                {result.ending === e.type && <span className="ending-chip__star">✦</span>}
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* 操作按钮 */}
         <div className="ending-screen__actions">
           <button className="ending-btn ending-btn--log" onClick={() => setShowStoryLog(true)}>
-            📜 查看探案记录
+            查看探案记录
+          </button>
+          <button className="ending-btn ending-btn--next" onClick={() => setShowNextCase(true)}>
+            下一案
+          </button>
+          <button className="ending-btn ending-btn--restart" onClick={handleRestart}>
+            再玩一次
           </button>
         </div>
       </div>
+
+      {/* 下一案 — 全屏浮层卡片 */}
+      {showNextCase && (
+        <div className="next-case-overlay" onClick={() => setShowNextCase(false)}>
+          <div className="next-case-card" onClick={e => e.stopPropagation()}>
+            <div className="next-case-card__series">惊堂录 · 第二案</div>
+            <div className="next-case-card__title">「沉香劫」已了。</div>
+            <div className="next-case-card__divider" />
+            <p className="next-case-card__body">下一案，正在筹备。</p>
+            <p className="next-case-card__body">敬请期待。</p>
+            <p className="next-case-card__thanks">感谢体验惊堂录</p>
+            <button className="next-case-card__close" onClick={() => setShowNextCase(false)}>
+              返回结局
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

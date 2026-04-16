@@ -4,6 +4,7 @@ import type { NotebookEntry } from '../types/notebook';
 import { useGame } from '../state/GameContext';
 import { sendNpcMessage } from '../api/npcAgent';
 import { extractNotebookEntries } from '../api/notebookExtractor';
+import { NPC_DEFINITIONS } from '../data/case/npcDefinitions';
 
 export function useDialogue(npcId: NpcId) {
   const { state, dispatch } = useGame();
@@ -73,6 +74,9 @@ export function useDialogue(npcId: NpcId) {
       e => e.speaker === npcId && e.day === state.currentDay
     );
 
+    const npcName = NPC_DEFINITIONS.find(n => n.id === npcId)?.name ?? npcId;
+    const logId = `log_talk_${npcId}_d${state.currentDay}_${Date.now()}`;
+
     extractNotebookEntries(history, npcId, state.currentDay, state.currentPeriod)
       .then(entry => {
         // Bug #11: 去重 — 若摘要相同则不重复录入
@@ -82,8 +86,33 @@ export function useDialogue(npcId: NpcId) {
         if (!isDuplicate) {
           dispatch({ type: 'ADD_NOTEBOOK_ENTRY', entry });
         }
+        // 剧情录：记录本次问询的简要活动
+        dispatch({
+          type: 'ADD_STORY_LOG',
+          entry: {
+            id: logId,
+            day: state.currentDay,
+            type: 'narration',
+            icon: '💬',
+            title: `问询${npcName}`,
+            content: entry.rawDialogueSummary,
+          },
+        });
       })
-      .catch(() => { /* 提取失败静默处理 */ });
+      .catch(() => {
+        // 提取失败时仍记录问询活动
+        dispatch({
+          type: 'ADD_STORY_LOG',
+          entry: {
+            id: logId,
+            day: state.currentDay,
+            type: 'narration',
+            icon: '💬',
+            title: `问询${npcName}`,
+            content: `与${npcName}进行了问询。`,
+          },
+        });
+      });
   }, [npcId, state, dispatch]);
 
   const history = state.npcs[npcId].conversationHistory;

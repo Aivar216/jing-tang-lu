@@ -4,15 +4,17 @@ import type { NotebookEntry, Claim } from '../types/notebook';
 import { callLLMExtractor } from './client';
 import { NPC_DEFINITIONS } from '../data/case/npcDefinitions';
 
-const EXTRACTION_SYSTEM = `你是一个案件信息记录员。你的任务是从一段对话记录中提取关键陈述，以JSON格式输出。
+const EXTRACTION_SYSTEM = `你是一个案件信息记录员，负责将对话中的关键信息整理为案卷条目。
 
-规则：
-1. 只提取说话人明确表达的主张或信息，不做任何推断或分析
-2. 不标注矛盾，不评估可信度，不做任何判断
-3. contradictionTag字段仅供系统内部使用，玩家绝对看不到此字段
-4. 每条claim的content用第三人称转述，不超过25字
-5. 如果对话没有有价值的新信息，返回空数组
-6. rawDialogueSummary是对整段对话的一句话概括，不超过30字
+严格规则（违反任何一条均为错误）：
+1. 只能记录事实性陈述：谁说了什么、在哪里、什么时间、发现了什么
+2. 禁止使用以下词汇及其近义词：破绽、可疑、矛盾、说谎、伪造、异常、蹊跷、嫌疑、指向、暗示
+3. 禁止做任何推理、判断、评价或总结性结论
+4. 如果NPC的话本身包含判断（如"我觉得他有问题"），原样记录为该NPC的发言，但不要在案卷描述中附和或强化这个判断
+5. 记录格式：[来源人物]称/表示/提到 + 事实内容
+6. 每条claim的content用第三人称转述，不超过25字
+7. 如果对话没有有价值的新信息，返回空数组
+8. rawDialogueSummary是对整段对话的一句话事实性概括，格式为"[人名]称[事实]"，不超过30字
 
 输出格式（只输出JSON，不要其他文字）：
 {

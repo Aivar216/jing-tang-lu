@@ -5,8 +5,6 @@ import type { StoryLogEntry } from '../types/game';
 import { useGame } from '../state/GameContext';
 import {
   generateCourtResponse,
-  buildCourtNarratorClosing,
-  shouldForceConclude,
   COURT_MAX_TURNS,
 } from '../api/courtOrchestrator';
 import { getActiveCourtSession } from '../state/selectors';
@@ -45,15 +43,6 @@ export function useCourt() {
         { actor: 'player' as const, content, citedEntryId },
       ];
 
-      if (shouldForceConclude(allTurns.length)) {
-        dispatch({
-          type: 'ADD_COURT_TURN',
-          sessionId,
-          turn: { actor: 'narrator', content: buildCourtNarratorClosing() },
-        });
-        return;
-      }
-
       setIsLoading(true);
       setError(null);
       try {
@@ -71,27 +60,19 @@ export function useCourt() {
           turn: { actor: npc1, content: npc1Response },
         });
 
-        // NPC2 responds if turn limit not hit
-        if (!shouldForceConclude(allTurns.length + 1)) {
-          const npc2Response = await generateCourtResponse(
-            npc2,
-            npc1,
-            { actor: npc1, content: npc1Response },
-            [...allTurns, { actor: npc1, content: npc1Response }],
-            state
-          );
-          dispatch({
-            type: 'ADD_COURT_TURN',
-            sessionId,
-            turn: { actor: npc2, content: npc2Response },
-          });
-        } else {
-          dispatch({
-            type: 'ADD_COURT_TURN',
-            sessionId,
-            turn: { actor: 'narrator', content: buildCourtNarratorClosing() },
-          });
-        }
+        // NPC2 always responds
+        const npc2Response = await generateCourtResponse(
+          npc2,
+          npc1,
+          { actor: npc1, content: npc1Response },
+          [...allTurns, { actor: npc1, content: npc1Response }],
+          state
+        );
+        dispatch({
+          type: 'ADD_COURT_TURN',
+          sessionId,
+          turn: { actor: npc2, content: npc2Response },
+        });
       } catch (err) {
         setError(err instanceof Error ? err.message : '升堂通信失败，请重试。');
       } finally {
@@ -182,13 +163,14 @@ export function useCourt() {
     [dispatch, state.currentDay, state.courtHistory]
   );
 
-  const isForcedConclusion =
-    activeSession != null && shouldForceConclude(activeSession.turns.length);
+  // 只计玩家发言回合，NPC 回复不受限制
+  const playerTurnCount = activeSession
+    ? activeSession.turns.filter(t => t.actor === 'player').length
+    : 0;
+  const isForcedConclusion = activeSession != null && playerTurnCount >= COURT_MAX_TURNS;
 
-  // 剩余追问次数
-  const turnsRemaining = activeSession
-    ? Math.max(0, COURT_MAX_TURNS - activeSession.turns.length)
-    : COURT_MAX_TURNS;
+  // 剩余追问次数（只计玩家发言）
+  const turnsRemaining = Math.max(0, COURT_MAX_TURNS - playerTurnCount);
 
   return {
     activeSession,

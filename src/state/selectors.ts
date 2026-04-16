@@ -56,7 +56,6 @@ export function getGameEndingType(state: GameState): 'perfect' | 'basic' | 'fail
   if (!lastAccusation || lastAccusation.context !== 'final_judgment') return null;
   if (!lastAccusation.wasCorrect) return 'failure';
   const hasLayer2 = state.layer2Triggered &&
-    state.evidenceFound.includes('ledger_shadow') &&
-    state.evidenceFound.includes('large_transfers_to_bank');
+    state.evidenceFound.includes('ledger_shadow');
   return hasLayer2 ? 'perfect' : 'basic';
 }

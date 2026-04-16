@@ -1,6 +1,7 @@
 import { useGame } from '../../state/GameContext';
 import { useDayAdvance } from '../../hooks/useDayAdvance';
 import { LAYER2_EVENT_TEXT, LAYER2_EVIDENCE_TEXT } from '../../data/events/layer2Triggers';
+import { getEvidence } from '../../data/case/evidenceDefinitions';
 import './DayEndOverlay.css';
 
 export function DayEndOverlay() {
@@ -32,7 +33,7 @@ export function DayEndOverlay() {
             </div>
             {state.deputyResultPending.evidenceUnlocked && (
               <div className="day-end-section__evidence-tag tag tag--gold">
-                新证据：{state.deputyResultPending.evidenceUnlocked}
+                新线索已录入案卷：{getEvidence(state.deputyResultPending.evidenceUnlocked)?.title ?? state.deputyResultPending.evidenceUnlocked}
               </div>
             )}
           </div>

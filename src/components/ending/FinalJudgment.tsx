@@ -26,6 +26,9 @@ export function FinalJudgment() {
     const effectiveMastermind = hasMastermind && mastermind ? mastermind : null;
     const result = evaluateFinalJudgment(killer, effectiveMastermind, state);
 
+    if (!result.killerCorrect) {
+      dispatch({ type: 'CHANGE_CREDIBILITY', delta: -15 });
+    }
     dispatch({
       type: 'MAKE_ACCUSATION',
       accusation: {
@@ -37,6 +40,9 @@ export function FinalJudgment() {
     });
 
     if (effectiveMastermind) {
+      if (!result.mastermindCorrect) {
+        dispatch({ type: 'CHANGE_CREDIBILITY', delta: -15 });
+      }
       dispatch({
         type: 'MAKE_ACCUSATION',
         accusation: {
@@ -73,13 +79,17 @@ export function FinalJudgment() {
         <div className="final-judgment__day">第 {state.currentDay} 天 · 最终判决</div>
         <div className="final-judgment__title">大人，请做出最终裁断</div>
 
-        {/* 步骤指示器 */}
+        {/* 步骤指示器 — 第一步不暴露"主谋"维度 */}
         <div className="final-judgment__steps">
           <span className={`fj-step ${step === 'killer' ? 'fj-step--active' : killer ? 'fj-step--done' : ''}`}>① 认定凶手</span>
-          <span className="fj-step-sep">→</span>
-          <span className={`fj-step ${step === 'mastermind_yn' || step === 'mastermind_select' ? 'fj-step--active' : hasMastermind !== null ? 'fj-step--done' : ''}`}>② 幕后主谋</span>
-          <span className="fj-step-sep">→</span>
-          <span className={`fj-step ${step === 'confirm' ? 'fj-step--active' : ''}`}>③ 确认宣判</span>
+          {step !== 'killer' && (
+            <>
+              <span className="fj-step-sep">→</span>
+              <span className={`fj-step ${step === 'mastermind_yn' || step === 'mastermind_select' ? 'fj-step--active' : hasMastermind !== null ? 'fj-step--done' : ''}`}>② 幕后主使</span>
+              <span className="fj-step-sep">→</span>
+              <span className={`fj-step ${step === 'confirm' ? 'fj-step--active' : ''}`}>③ 确认宣判</span>
+            </>
+          )}
         </div>
 
         {/* 步骤一：选凶手 */}
@@ -103,7 +113,7 @@ export function FinalJudgment() {
               onClick={() => setStep('mastermind_yn')}
               disabled={!killer}
             >
-              下一步：认定幕后主谋 →
+              下一步 →
             </button>
           </div>
         )}

@@ -83,7 +83,6 @@ export function CourtSetup({ onClose }: Props) {
                   >
                     <span className="court-setup-option__name">{n.name}</span>
                     <span className="court-setup-option__title">{n.title}</span>
-                    {n.isSuspect && <span className="court-setup-option__badge">嫌疑人</span>}
                   </button>
                 ))}
               </div>

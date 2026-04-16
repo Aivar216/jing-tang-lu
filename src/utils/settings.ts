@@ -9,9 +9,9 @@ const STORAGE_KEY = 'jing-tang-lu-settings';
 
 export const DEFAULT_SETTINGS: AppSettings = {
   apiKey: '',
-  baseURL: '',
-  npcModel: 'claude-sonnet-4-6',
-  extractorModel: 'claude-haiku-4-5-20251001',
+  baseURL: 'https://open.bigmodel.cn/api/paas/v4',
+  npcModel: 'glm-4-plus',
+  extractorModel: 'glm-4-flash',
 };
 
 export function loadSettings(): AppSettings {

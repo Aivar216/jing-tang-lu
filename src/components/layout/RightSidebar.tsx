@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useGame } from '../../state/GameContext';
 import { NotebookPanel } from '../notebook/NotebookPanel';
 import { StoryLogPanel } from '../storylog/StoryLogPanel';
 import './RightSidebar.css';
@@ -6,8 +7,12 @@ import './RightSidebar.css';
 type SidebarTab = 'log' | 'notebook';
 
 export function RightSidebar() {
+  const { state } = useGame();
   const [isOpen, setIsOpen] = useState(true);
   const [activeTab, setActiveTab] = useState<SidebarTab>('log');
+
+  const logCount = state.storyLog.length;
+  const notebookCount = state.notebookEntries.length;
 
   return (
     <div className={`right-sidebar ${isOpen ? 'right-sidebar--open' : 'right-sidebar--closed'}`}>
@@ -27,13 +32,13 @@ export function RightSidebar() {
               className={`rs-tab ${activeTab === 'log' ? 'rs-tab--active' : ''}`}
               onClick={() => setActiveTab('log')}
             >
-              剧情
+              剧情 {logCount > 0 ? `(${logCount})` : ''}
             </button>
             <button
               className={`rs-tab ${activeTab === 'notebook' ? 'rs-tab--active' : ''}`}
               onClick={() => setActiveTab('notebook')}
             >
-              笔记
+              案卷 {notebookCount > 0 ? `(${notebookCount})` : ''}
             </button>
           </div>
 

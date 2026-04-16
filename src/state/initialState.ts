@@ -42,4 +42,7 @@ export const INITIAL_STATE: GameState = {
   storyLog: [],
   tutorialStep: 0,
   activeConversationNpc: null,
+  visitedNpcIds: [],
+  visitedLocationIds: [],
+  npcAlerted: {},
 };

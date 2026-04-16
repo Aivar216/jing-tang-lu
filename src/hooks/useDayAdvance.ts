@@ -20,7 +20,7 @@ export function useDayAdvance() {
         const entry: StoryLogEntry = {
           id: makeLogId(), day: state.currentDay, type: 'event',
           icon: '⚡', title: '紧急线报',
-          content: '差役急报：城西盐商刘万全账目有异，疑与沉香案存在关联。',
+          content: '差役急报：线索指向刘万全钱庄，账目有异。',
         };
         dispatch({ type: 'ADD_STORY_LOG', entry });
       }
@@ -31,11 +31,11 @@ export function useDayAdvance() {
       return;
     }
 
-    // Day change log
+    // Day change log（v4：不含统计数据，统计在 DayEndOverlay 中展示）
     const dayEntry: StoryLogEntry = {
       id: makeLogId(), day: state.currentDay, type: 'day_change',
       icon: '🌙', title: `第 ${state.currentDay} 天结束`,
-      content: `今日共获证据 ${state.evidenceFound.length} 项，声望 ${state.credibilityScore}，剩余升堂次数 ${state.courtSessionsRemaining}。`,
+      content: `第${state.currentDay}天的调查落下帷幕。`,
     };
     dispatch({ type: 'ADD_STORY_LOG', entry: dayEntry });
 

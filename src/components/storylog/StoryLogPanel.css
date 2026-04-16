@@ -41,13 +41,13 @@
   line-height: 1.8;
 }
 
-/* Day divider */
+/* 天数标题 — 侦探小说章节感 */
 .story-log-day-divider {
   text-align: center;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   color: var(--color-ink-faint);
-  letter-spacing: 0.15em;
-  margin: var(--spacing-sm) 0 var(--spacing-xs);
+  letter-spacing: 0.2em;
+  margin: var(--spacing-md) 0 var(--spacing-sm);
   position: relative;
 }
 
@@ -56,56 +56,28 @@
   content: '';
   position: absolute;
   top: 50%;
-  width: 28%;
+  width: 25%;
   height: 1px;
   background: var(--color-border-light);
 }
 .story-log-day-divider::before { left: 0; }
 .story-log-day-divider::after  { right: 0; }
 
-/* Entry */
-.sl-entry {
-  display: flex;
-  align-items: flex-start;   /* 图标和文字同顶对齐，不撑高 */
-  gap: var(--spacing-sm);
-  padding: 6px var(--spacing-xs);
-  margin-bottom: 3px;
-  border-radius: var(--border-radius);
-  border-left: 2px solid transparent;
-}
-
-.sl-entry--day_change  { border-left-color: var(--color-border);      background: var(--color-bg-dark); }
-.sl-entry--evidence    { border-left-color: var(--color-gold-light);   background: #fef8e8; }
-.sl-entry--court       { border-left-color: var(--color-red-light);    background: #fdf0f0; }
-.sl-entry--event       { border-left-color: #7ba7f7;                   background: #eef2fe; }
-.sl-entry--narration,
-.sl-entry--deputy      { border-left-color: #7ac87a;                   background: #eef8ee; }
-
-.sl-entry__icon {
-  /* 让 emoji 宽高固定，与文字首行基线对齐 */
-  flex-shrink: 0;
-  width: 1.1rem;
-  font-size: 0.85rem;
-  line-height: 1;            /* 紧凑，不多占高度 */
-  margin-top: 0.18em;        /* 微调下移，与首行文字视觉对齐 */
+/* 日更迭 — 居中过渡文字 */
+.sl-day-change {
   text-align: center;
+  font-size: 0.68rem;
+  color: var(--color-ink-faint);
+  font-style: italic;
+  padding: 4px 0;
+  letter-spacing: 0.05em;
 }
 
-.sl-entry__body {
-  flex: 1;
-  min-width: 0;
-}
-
-.sl-entry__title {
-  font-size: var(--font-size-xs);
-  font-weight: 600;
-  color: var(--color-ink);
-  margin-bottom: 2px;
-  line-height: 1.4;
-}
-
-.sl-entry__content {
+/* 散文式条目 — 连续段落，无框线无背景 */
+.sl-prose-entry {
   font-size: 0.72rem;
+  line-height: 1.85;
   color: var(--color-ink-light);
-  line-height: 1.55;
+  padding: 2px 0 2px 8px;
+  margin-bottom: 1px;
 }

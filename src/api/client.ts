@@ -41,7 +41,8 @@ async function callOpenAICompat(
 
   let targetUrl = baseURL.trim().replace(/\/$/, '');
   if (!targetUrl.endsWith('/chat/completions')) {
-    targetUrl = targetUrl.replace(/\/v1$/, '') + '/v1/chat/completions';
+    // 去掉末尾的版本号（/v1、/v4 等），再拼 /chat/completions
+    targetUrl = targetUrl.replace(/\/v\d+$/, '') + '/chat/completions';
   }
 
   // Dev: Vite middleware at /dev-proxy; Prod: direct request (GitHub Pages static hosting)

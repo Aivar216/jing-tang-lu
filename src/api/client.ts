@@ -44,10 +44,11 @@ async function callOpenAICompat(
     targetUrl = targetUrl.replace(/\/v1$/, '') + '/v1/chat/completions';
   }
 
-  // Dev: Vite middleware at /dev-proxy; Prod: Vercel serverless function at /api/proxy
-  const proxyPath = import.meta.env.DEV ? '/dev-proxy' : '/api/proxy';
-  const fetchUrl = proxyPath;
-  const extraHeaders: Record<string, string> = { 'X-Target': targetUrl };
+  // Dev: Vite middleware at /dev-proxy; Prod: direct request (GitHub Pages static hosting)
+  const fetchUrl = import.meta.env.DEV ? '/dev-proxy' : targetUrl;
+  const extraHeaders: Record<string, string> = import.meta.env.DEV
+    ? { 'X-Target': targetUrl }
+    : {};
 
   const res = await fetch(fetchUrl, {
     method: 'POST',

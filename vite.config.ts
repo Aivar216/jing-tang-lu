@@ -6,6 +6,7 @@ import * as http from 'http'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/jing-tang-lu/',
   plugins: [
     react(),
     {

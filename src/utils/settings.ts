@@ -10,7 +10,7 @@ const STORAGE_KEY = 'jing-tang-lu-settings';
 export const DEFAULT_SETTINGS: AppSettings = {
   apiKey: '',
   baseURL: 'https://open.bigmodel.cn/api/paas/v4/chat/completions',
-  npcModel: 'glm-4-plus',
+  npcModel: 'glm-4-flash',
   extractorModel: 'glm-4-flash',
 };
 

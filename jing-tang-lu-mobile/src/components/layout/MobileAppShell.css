@@ -16,17 +16,19 @@
   position: relative;
   overflow: hidden;
   min-height: 0;
-  /* 为固定在底部的导航栏预留空间 */
-  padding-bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px));
 }
 
 /* ── 单个标签面板 ── */
+/* 用 bottom 直接限定高度，而不是靠父元素 padding-bottom。
+   position:absolute + inset:0 会忽略父元素 padding，导致内容被底部导航遮挡。*/
 .mobile-tab-panel {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  /* 平滑 iOS 触控滚动 */
   -webkit-overflow-scrolling: touch;
 }

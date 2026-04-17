@@ -188,7 +188,7 @@
 /* ── 结束当天：固定底部 ── */
 .inv-day-footer {
   margin-top: auto;
-  padding: var(--spacing-md) 0 var(--spacing-md);
+  padding: var(--spacing-md) 0 var(--spacing-lg);
   border-top: 2px solid var(--color-border);
   flex-shrink: 0;
 }

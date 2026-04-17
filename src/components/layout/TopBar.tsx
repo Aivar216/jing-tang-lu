@@ -8,10 +8,11 @@ import './TopBar.css';
 
 const TOTAL_EVIDENCE = EVIDENCE_DEFINITIONS.length;
 
+const TOTAL_DAYS = 6;
 const PERIOD_LABELS = {
-  morning: '上午（06:00-12:00）',
-  afternoon: '下午（12:00-18:00）',
-  evening: '傍晚（18:00-22:00）',
+  morning: '上午',
+  afternoon: '下午',
+  evening: '傍晚',
 };
 
 export function TopBar() {
@@ -26,6 +27,24 @@ export function TopBar() {
         <div className="topbar__title">惊堂录 · 沉香劫</div>
 
         <div className="topbar__center">
+          <div className="topbar__deadline">
+            <span className="topbar__deadline-label">断案令</span>
+            <div className="topbar__deadline-dots">
+              {Array.from({ length: TOTAL_DAYS }, (_, i) => {
+                const day = i + 1;
+                const isPast = day < state.currentDay;
+                const isCurrent = day === state.currentDay;
+                const isUrgent = state.currentDay >= 5 && day >= state.currentDay;
+                return (
+                  <span
+                    key={day}
+                    className={`topbar__ddot${isPast ? ' topbar__ddot--past' : ''}${isCurrent ? ' topbar__ddot--current' : ''}${isUrgent ? ' topbar__ddot--urgent' : ''}`}
+                    title={`第 ${day} 天`}
+                  />
+                );
+              })}
+            </div>
+          </div>
           <span className="topbar__day">第 {state.currentDay} 天 · {PERIOD_LABELS[state.currentPeriod]}</span>
         </div>
 

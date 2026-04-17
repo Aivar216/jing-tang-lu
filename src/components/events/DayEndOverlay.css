@@ -28,6 +28,31 @@
   text-align: center;
 }
 
+/* ── 断案令提示 ── */
+.day-end-deadline {
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-gold-light);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: rgba(200, 168, 75, 0.08);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--border-radius);
+  letter-spacing: 0.1em;
+}
+
+.day-end-deadline--urgent {
+  color: #f07040;
+  border-color: #f07040;
+  background: rgba(240, 112, 64, 0.1);
+  font-weight: 600;
+  animation: deadline-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes deadline-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
 .day-end-section {
   background: var(--color-bg-dark);
   border: 1px solid var(--color-border-light);

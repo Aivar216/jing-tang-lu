@@ -19,6 +19,10 @@ export function DayEndOverlay() {
 
   const hasDeputyResult = state.deputyResultPending !== null;
 
+  // 断案令剩余天数（currentDay 已是新天，所以刚结束的是 currentDay-1 天）
+  const remainingDays = 6 - (state.currentDay - 1);
+  const isLastDay = remainingDays <= 1;
+
   // 今日探访的 NPC 数（visitedNpcIds 在 START_CONVERSATION 时累积）
   const visitedToday = Object.values(state.npcs)
     .filter(npc => npc.conversationHistory.length > 0).length;
@@ -28,6 +32,13 @@ export function DayEndOverlay() {
       <div className="day-end-card">
         {/* ADVANCE_DAY 已执行，currentDay 已是新的一天，需要减1显示刚结束的天数 */}
         <div className="day-end-card__title">第 {state.currentDay - 1} 天 · 日终</div>
+
+        {/* 断案令提示 */}
+        <div className={`day-end-deadline ${isLastDay ? 'day-end-deadline--urgent' : ''}`}>
+          {isLastDay
+            ? '明日即是断案令最后期限！'
+            : `断案令剩余 ${remainingDays} 天`}
+        </div>
 
         {hasDeputyResult && state.deputyResultPending && (
           <div className="day-end-section">

@@ -39,6 +39,16 @@ export function useDayAdvance() {
     };
     dispatch({ type: 'ADD_STORY_LOG', entry: dayEntry });
 
+    // 断案令紧迫提示：第5天结束时
+    if (state.currentDay === 5) {
+      const urgentEntry: StoryLogEntry = {
+        id: makeLogId(), day: state.currentDay, type: 'event',
+        icon: '⏳', title: '断案令最后期限将至',
+        content: '断案令限期六日，明日便是最后之期。若不能定论，此案便成悬案。',
+      };
+      dispatch({ type: 'ADD_STORY_LOG', entry: urgentEntry });
+    }
+
     dispatch({ type: 'ADVANCE_DAY' });
     dispatch({ type: 'SET_PHASE', phase: 'day_end' });
 

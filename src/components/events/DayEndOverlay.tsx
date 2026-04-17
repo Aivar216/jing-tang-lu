@@ -1,7 +1,7 @@
 import { useGame } from '../../state/GameContext';
 import { useDayAdvance } from '../../hooks/useDayAdvance';
 import { LAYER2_EVENT_TEXT, LAYER2_EVIDENCE_TEXT } from '../../data/events/layer2Triggers';
-import { getEvidence } from '../../data/case/evidenceDefinitions';
+import { getEvidence, EVIDENCE_DEFINITIONS } from '../../data/case/evidenceDefinitions';
 import './DayEndOverlay.css';
 
 export function DayEndOverlay() {
@@ -18,6 +18,10 @@ export function DayEndOverlay() {
     state.layer2TriggerMethod === 'evidence';
 
   const hasDeputyResult = state.deputyResultPending !== null;
+
+  // 今日探访的 NPC 数（visitedNpcIds 在 START_CONVERSATION 时累积）
+  const visitedToday = Object.values(state.npcs)
+    .filter(npc => npc.conversationHistory.length > 0).length;
 
   return (
     <div className="day-end-overlay">
@@ -53,18 +57,29 @@ export function DayEndOverlay() {
           </div>
         )}
 
-        {!hasDeputyResult && !showLayer2Event && !showLayer2Evidence && (
-          <div className="day-end-section">
-            <div className="day-end-section__content day-end-section__content--muted">
-              今日调查已毕。明日继续。
+        {/* ── 今日成果 ── */}
+        <div className="day-end-section day-end-section--summary">
+          <div className="day-end-section__label">今日成果</div>
+          <div className="day-end-summary-grid">
+            <div className="day-end-summary-item">
+              <span className="day-end-summary-item__value">{state.evidenceFoundToday}</span>
+              <span className="day-end-summary-item__label">新线索</span>
+            </div>
+            <div className="day-end-summary-item">
+              <span className="day-end-summary-item__value">{visitedToday}</span>
+              <span className="day-end-summary-item__label">证人问询</span>
+            </div>
+            <div className="day-end-summary-item">
+              <span className="day-end-summary-item__value">{state.notebookEntries.length}</span>
+              <span className="day-end-summary-item__label">案卷记录</span>
             </div>
           </div>
-        )}
+        </div>
 
         <div className="day-end-card__status">
           <span>剩余升堂：{state.courtSessionsRemaining} 次</span>
           <span>声望：{state.credibilityScore}</span>
-          <span>已得证据：{state.evidenceFound.length} 项</span>
+          <span>证据 {state.evidenceFound.length}/{EVIDENCE_DEFINITIONS.length}</span>
         </div>
 
         <button className="day-end-card__btn" onClick={confirmDayStart}>

@@ -32,6 +32,7 @@ export const INITIAL_STATE: GameState = {
   ) as Record<NpcId, NpcState>,
   notebookEntries: [],
   evidenceFound: [],
+  evidenceFoundToday: 0,
   bookmarkedEntries: [],
   courtHistory: [],
   conflictRecords: [],

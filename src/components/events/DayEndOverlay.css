@@ -64,6 +64,36 @@
   margin-top: var(--spacing-sm);
 }
 
+/* ── 今日成果网格 ── */
+.day-end-section--summary {
+  background: rgba(200, 168, 75, 0.06);
+  border-color: var(--color-border);
+}
+
+.day-end-summary-grid {
+  display: flex;
+  justify-content: space-around;
+  gap: var(--spacing-md);
+}
+
+.day-end-summary-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.day-end-summary-item__value {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-gold);
+}
+
+.day-end-summary-item__label {
+  font-size: var(--font-size-xs);
+  color: var(--color-ink-faint);
+}
+
 .day-end-card__status {
   display: flex;
   gap: var(--spacing-lg);

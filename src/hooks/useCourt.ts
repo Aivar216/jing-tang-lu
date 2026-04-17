@@ -1,11 +1,13 @@
 import { useState, useCallback } from 'react';
 import type { NpcId } from '../types/npc';
-import type { Verdict } from '../types/court';
+import type { Verdict, CourtTurn } from '../types/court';
 import type { StoryLogEntry } from '../types/game';
 import { useGame } from '../state/GameContext';
 import {
   generateCourtResponse,
+  generateNpcExchange,
   COURT_MAX_TURNS,
+  MAX_NPC_EXCHANGES,
 } from '../api/courtOrchestrator';
 import { getActiveCourtSession } from '../state/selectors';
 import { NPC_DEFINITIONS } from '../data/case/npcDefinitions';
@@ -73,6 +75,41 @@ export function useCourt() {
           sessionId,
           turn: { actor: npc2, content: npc2Response },
         });
+
+        // NPC 交换循环：让 NPC 根据人设和对话内容自行决定是否回应对方
+        const accumulatedTurns: CourtTurn[] = [
+          ...allTurns,
+          { actor: npc1, content: npc1Response },
+          { actor: npc2, content: npc2Response },
+        ];
+        let exchangeCount = 0;
+        let lastSpeaker = npc2;
+        let otherSpeaker = npc1;
+        let lastNpcTurnContent = npc2Response;
+
+        while (exchangeCount < MAX_NPC_EXCHANGES) {
+          const exchangeResponse = await generateNpcExchange(
+            otherSpeaker,
+            lastSpeaker,
+            { actor: lastSpeaker, content: lastNpcTurnContent },
+            accumulatedTurns,
+            state
+          );
+
+          if (!exchangeResponse) break; // NPC 选择沉默，停止交换
+
+          dispatch({
+            type: 'ADD_COURT_TURN',
+            sessionId,
+            turn: { actor: otherSpeaker, content: exchangeResponse },
+          });
+          accumulatedTurns.push({ actor: otherSpeaker, content: exchangeResponse });
+
+          // 交换角色
+          [lastSpeaker, otherSpeaker] = [otherSpeaker, lastSpeaker];
+          lastNpcTurnContent = exchangeResponse;
+          exchangeCount++;
+        }
       } catch (err) {
         setError(err instanceof Error ? err.message : '升堂通信失败，请重试。');
       } finally {
@@ -167,7 +204,12 @@ export function useCourt() {
   const playerTurnCount = activeSession
     ? activeSession.turns.filter(t => t.actor === 'player').length
     : 0;
-  const isForcedConclusion = activeSession != null && playerTurnCount >= COURT_MAX_TURNS;
+  // 达到轮次上限后，需等 NPC 回答完才触发定断（最后一条 turn 不是玩家发的）
+  const lastTurn = activeSession?.turns[activeSession.turns.length - 1];
+  const npcRepliedAfterLastPlayerTurn = lastTurn != null && lastTurn.actor !== 'player';
+  const isForcedConclusion = activeSession != null
+    && playerTurnCount >= COURT_MAX_TURNS
+    && npcRepliedAfterLastPlayerTurn;
 
   // 剩余追问次数（只计玩家发言）
   const turnsRemaining = Math.max(0, COURT_MAX_TURNS - playerTurnCount);

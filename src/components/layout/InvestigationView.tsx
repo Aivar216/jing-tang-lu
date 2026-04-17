@@ -91,12 +91,16 @@ export function InvestigationView() {
         entryType: evDef.entryType === 'observation' ? '观察' : '物证',
       });
 
-      // 剧情录：简要标记
+      // 剧情录：简要标记（区分人物来源与地点来源）
+      const personSources = ['仵作', '周福', '酒馆·王大年', '赌坊·马六', '秦氏', '孙婆婆巷·孙婆婆', '差役报告'];
+      const isPerson = personSources.includes(evDef.sourceLabel ?? '');
       const logEntry: StoryLogEntry = {
         id: makeLogId(), day: state.currentDay, type: 'evidence',
         icon: '📄',
         title: `发现：${evDef.title}`,
-        content: `在${evDef.sourceLabel ?? '现场'}有所发现`,
+        content: isPerson
+          ? `从${evDef.sourceLabel}处获得信息`
+          : `在${evDef.sourceLabel ?? '现场'}有所发现`,
       };
       dispatch({ type: 'ADD_STORY_LOG', entry: logEntry });
     }
@@ -118,6 +122,31 @@ export function InvestigationView() {
   const showCourt = canInitiateCourt(state);
   const showAdvance = canAdvanceDay(state);
   const isFinalDay = state.currentDay >= 6;
+
+  // 智能提示：当前地点是否搜查完毕
+  const locationAllDone = locationActions.length > 0
+    && locationActions.every(a => {
+      const found = state.evidenceFound.includes(a.evidenceId as never);
+      const unlocked = (!a.requires || state.evidenceFound.includes(a.requires as never))
+        && (!a.requiresLayer2 || state.layer2Triggered);
+      return found || !unlocked;
+    });
+
+  // 智能提示：有未探索的已解锁地点
+  const unexploredLocations = LOCATIONS.filter(l => {
+    if (l.id === state.currentLocation) return false;
+    if (l.unlockedFromDay && state.currentDay < l.unlockedFromDay) return false;
+    if (l.requiresLayer2 && !state.layer2Triggered) return false;
+    const locActions = LOCATION_EVIDENCE[l.id];
+    if (!locActions || locActions.length === 0) return false;
+    // 该地点是否有未找到且前置满足的证据
+    return locActions.some(a => {
+      const found = state.evidenceFound.includes(a.evidenceId as never);
+      const unlocked = (!a.requires || state.evidenceFound.includes(a.requires as never))
+        && (!a.requiresLayer2 || state.layer2Triggered);
+      return !found && unlocked;
+    });
+  });
 
   return (
     <div className="investigation-view">
@@ -164,10 +193,22 @@ export function InvestigationView() {
         </div>
       )}
 
-      {/* ── 区块 3：行动点提示 ── */}
+      {/* ── 区块 3：智能提示 ── */}
+      {locationAllDone && !noAP && (
+        <div className="inv-hint">
+          此处已搜查完毕，试试去其他地方看看。
+        </div>
+      )}
+      {unexploredLocations.length > 0 && !noAP && (
+        <div className="inv-hint">
+          建议：你还未查过{unexploredLocations.map(l => `「${l.name}」`).join('、')}，那里可能有新线索。
+        </div>
+      )}
+
+      {/* ── 区块 4：行动点提示 ── */}
       {noAP && (
         <div className="inv-ap-exhausted">
-          今日行动点已耗尽，可推进日期继续调查。
+          今日行动点已耗尽。今天发现了 <strong>{state.evidenceFoundToday}</strong> 条新线索。推进日期可继续调查。
         </div>
       )}
 
@@ -207,6 +248,8 @@ export function InvestigationView() {
           description={searchResult.description}
           sourceLabel={searchResult.sourceLabel}
           entryType={searchResult.entryType}
+          evidenceProgress={`证据 ${state.evidenceFound.length}/${EVIDENCE_DEFINITIONS.length}`}
+          actionProgress={`今日行动 ${3 - state.actionPoints}/3`}
           onClose={() => setSearchResult(null)}
         />
       )}

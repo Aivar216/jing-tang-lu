@@ -63,6 +63,18 @@
   gap: var(--spacing-xs);
 }
 
+/* ── 智能提示 ── */
+.inv-hint {
+  margin: var(--spacing-xs) 0;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: rgba(200, 168, 75, 0.08);
+  border-radius: var(--border-radius);
+  color: var(--color-gold-light);
+  font-size: var(--font-size-xs);
+  border-left: 3px solid var(--color-gold);
+  opacity: 0.85;
+}
+
 /* ── 行动点耗尽提示 ── */
 .inv-ap-exhausted {
   margin: var(--spacing-xs) 0;

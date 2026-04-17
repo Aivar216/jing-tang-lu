@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local subdirectories (project root is at repo root)
+.claude/
+jing-tang-lu/
+jing-tang-lu-mobile/
+Draft.txt
+*.md
+启动游戏.bat

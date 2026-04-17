@@ -42,6 +42,8 @@ export interface GameState {
   npcs: Record<import('./npc').NpcId, import('./npc').NpcState>;
   notebookEntries: import('./notebook').NotebookEntry[];
   evidenceFound: import('./evidence').EvidenceId[];
+  /** 当天发现的证据数（日终总结用，ADVANCE_DAY 时重置） */
+  evidenceFoundToday: number;
   bookmarkedEntries: string[];
   courtHistory: import('./court').CourtSession[];
   conflictRecords: import('./notebook').ConflictRecord[];

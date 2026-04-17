@@ -75,8 +75,13 @@ export function CourtScene() {
           const citedEntryForTurn = turn.citedEntryId
             ? allEntries.find(e => e.id === turn.citedEntryId)
             : undefined;
+          // NPC 交换检测：当前是 NPC 发言，且前一条也是 NPC（不同角色）
+          const prevTurn = i > 0 ? activeSession.turns[i - 1] : null;
+          const isNpcExchange = turn.actor !== 'player' && turn.actor !== 'narrator'
+            && prevTurn != null && prevTurn.actor !== 'player' && prevTurn.actor !== 'narrator'
+            && prevTurn.actor !== turn.actor;
           return (
-            <div key={i} className={`court-turn court-turn--${turn.actor === 'player' ? 'player' : turn.actor === 'narrator' ? 'narrator' : 'npc'}`}>
+            <div key={i} className={`court-turn court-turn--${turn.actor === 'player' ? 'player' : turn.actor === 'narrator' ? 'narrator' : 'npc'}${isNpcExchange ? ' court-turn--exchange' : ''}`}>
               {turn.actor !== 'narrator' && (
                 <div className="court-turn__speaker">{actorName}</div>
               )}

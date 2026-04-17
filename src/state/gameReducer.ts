@@ -75,6 +75,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         currentPeriod: 'morning',
         actionPoints: 3,
         gamePhase: 'investigation',
+        // evidenceFoundToday 不在此重置，在 confirmDayStart 时重置
         deputyTaskActive: null,
         deputyResultPending: activeTask
           ? {
@@ -109,6 +110,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       return {
         ...state,
         evidenceFound: [...state.evidenceFound, action.evidenceId],
+        evidenceFoundToday: state.evidenceFoundToday + 1,
         notebookEntries: autoEntry && !alreadyInNotebook
           ? [...state.notebookEntries, autoEntry]
           : state.notebookEntries,
@@ -257,6 +259,10 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       return {
         ...state,
         gamePhase: action.phase,
+        // 离开日终界面时重置当日证据计数
+        evidenceFoundToday: state.gamePhase === 'day_end' && action.phase === 'investigation'
+          ? 0
+          : state.evidenceFoundToday,
       };
     }
 

@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { useGame } from '../../state/GameContext';
 import { getCredibilityLabel, getCredibilityColor } from '../../utils/credibilityEngine';
+import { EVIDENCE_DEFINITIONS } from '../../data/case/evidenceDefinitions';
 import { SettingsModal } from '../settings/SettingsModal';
 import { loadSettings } from '../../utils/settings';
 import './TopBar.css';
+
+const TOTAL_EVIDENCE = EVIDENCE_DEFINITIONS.length;
 
 const PERIOD_LABELS = {
   morning: '上午（06:00-12:00）',
@@ -52,6 +55,11 @@ export function TopBar() {
             >
               {state.credibilityScore} · {getCredibilityLabel(state.credibilityScore)}
             </span>
+          </div>
+
+          <div className="topbar__stat">
+            <span className="topbar__stat-label">证据</span>
+            <span className="topbar__stat-value">{state.evidenceFound.length}/{TOTAL_EVIDENCE}</span>
           </div>
 
           <button

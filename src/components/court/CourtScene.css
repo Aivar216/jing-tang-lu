@@ -84,6 +84,16 @@
   align-self: flex-start;
 }
 
+/* NPC 对质：NPC 之间互相对话 */
+.court-turn--exchange {
+  margin-left: var(--spacing-lg);
+  opacity: 0.9;
+}
+
+.court-turn--exchange .court-turn__content {
+  border-left: 2px solid var(--color-gold);
+}
+
 .court-turn--narrator {
   align-self: center;
   text-align: center;

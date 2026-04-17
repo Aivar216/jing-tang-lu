@@ -3,28 +3,59 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node (desktop)
+        uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
+          cache: npm
+          cache-dependency-path: jing-tang-lu-desktop/package-lock.json
 
-      - run: npm ci
+      - name: Install desktop deps
+        run: npm ci
+        working-directory: jing-tang-lu-desktop
 
-      - run: npm run build
+      - name: Build desktop
+        run: npm run build
+        working-directory: jing-tang-lu-desktop
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Setup Node (mobile)
+        uses: actions/setup-node@v4
         with:
-          path: dist
+          node-version: 20
+          cache: npm
+          cache-dependency-path: jing-tang-lu-mobile/package-lock.json
 
-      - uses: actions/deploy-pages@v4
+      - name: Install mobile deps
+        run: npm ci
+        working-directory: jing-tang-lu-mobile
+
+      - name: Build mobile
+        run: npm run build
+        working-directory: jing-tang-lu-mobile
+
+      - name: Assemble deploy directory
+        run: |
+          mkdir -p deploy/desktop
+          mkdir -p deploy/mobile
+          cp -r jing-tang-lu-desktop/dist/. deploy/desktop/
+          cp -r jing-tang-lu-mobile/dist/.  deploy/mobile/
+          cp deploy-root/index.html          deploy/index.html
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./deploy
+          force_orphan: true

@@ -1,0 +1,35 @@
+/* =====================================================
+   手机版 Design Token 覆盖
+   在 global.css 中 @import 本文件，覆盖 tokens.css 的桌面值
+   ===================================================== */
+
+:root {
+  /* ── 布局尺寸 ── */
+  --topbar-height: 44px;
+  --bottom-nav-height: 56px;
+  /* 侧栏在手机版不存在，重置为 100% 以便复用组件渲染全宽 */
+  --sidebar-left-width: 100%;
+  --sidebar-right-width: 100%;
+
+  /* ── 字号（基于 16px 根字体）── */
+  --font-size-xs: 0.75rem;    /* 12px — 标签、角标 */
+  --font-size-sm: 0.875rem;   /* 14px — 辅助正文 */
+  --font-size-md: 1rem;       /* 16px — 主正文 */
+  --font-size-lg: 1.125rem;   /* 18px — 小标题 */
+  --font-size-xl: 1.25rem;    /* 20px — 标题 */
+  --font-size-2xl: 1.4rem;    /* 22px — 大标题 */
+
+  /* ── 间距（手机屏幕更紧凑）── */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+
+  /* ── 触控目标最小尺寸（Apple HIG: 44px）── */
+  --touch-target: 44px;
+
+  /* ── 圆角（手机版略大一点，更现代感）── */
+  --border-radius: 6px;
+  --border-radius-lg: 12px;
+}

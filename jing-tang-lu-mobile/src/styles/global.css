@@ -1,0 +1,114 @@
+@import './tokens.css';
+@import './tokens-mobile.css'; /* 手机版覆盖，必须在 tokens.css 之后 */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  /* 手机版基准字号 16px（原版为 20px），所有 rem 自动缩放 */
+  font-size: 16px;
+  touch-action: manipulation;
+}
+
+html, body, #root {
+  height: 100%;
+  height: 100dvh; /* dynamic viewport height，适配移动浏览器工具栏 */
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-main);
+  font-size: var(--font-size-md);
+  line-height: 1.7;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 3px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 2px;
+}
+
+/* Selection */
+::selection {
+  background: var(--color-gold-light);
+  color: var(--color-ink);
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-main);
+  border: none;
+  background: none;
+  -webkit-appearance: none;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+input, textarea, select {
+  font-family: var(--font-main);
+  /* 防止 iOS 在字体 <16px 时自动缩放页面 */
+  font-size: max(16px, var(--font-size-md));
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--color-border-light);
+  margin: var(--spacing-sm) 0;
+}
+
+.tag {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: var(--font-size-xs);
+  background: var(--color-bg-dark);
+  border: 1px solid var(--color-border-light);
+  color: var(--color-ink-light);
+}
+
+.tag--red {
+  background: #fde8e8;
+  border-color: var(--color-red-light);
+  color: var(--color-red);
+}
+
+.tag--gold {
+  background: #fef5d8;
+  border-color: var(--color-gold-light);
+  color: var(--color-gold);
+}
+
+.tag--green {
+  background: #e8f5e8;
+  border-color: #7ab87a;
+  color: var(--color-green);
+}
+
+.loading-dots::after {
+  content: '...';
+  animation: dots 1.2s steps(4, end) infinite;
+}
+
+@keyframes dots {
+  0%, 20% { content: '.'; }
+  40% { content: '..'; }
+  60%, 100% { content: '...'; }
+}

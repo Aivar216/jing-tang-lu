@@ -23,10 +23,14 @@ dist-ssr
 *.sln
 *.sw?
 
+# API Keys — 绝对不能上传
+.env
+.env.*
+!.env.example
+
 # Local subdirectories (project root is at repo root)
 .claude/
 jing-tang-lu/
-jing-tang-lu-mobile/
 Draft.txt
 *.md
 启动游戏.bat

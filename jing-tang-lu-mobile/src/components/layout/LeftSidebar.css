@@ -1,0 +1,132 @@
+/* ── 手机版地图面板（原桌面版左侧栏）── */
+.left-sidebar {
+  width: 100%;
+  height: 100%;
+  background: var(--color-bg-dark);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.left-sidebar__section-title {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-xs);
+  color: var(--color-ink-faint);
+  letter-spacing: 0.12em;
+  border-bottom: 1px solid var(--color-border-light);
+  flex-shrink: 0;
+}
+
+/* 地点列表可滚动 */
+.left-sidebar__locations {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── 单个地点条目 ── */
+.location-item {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid var(--color-border-light);
+  cursor: pointer;
+  transition: background 0.15s;
+  min-height: 52px;       /* 触控友好高度 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.location-item:active:not(.location-item--locked) {
+  background: var(--color-bg);
+}
+
+.location-item--active {
+  background: var(--color-bg);
+  border-left: 3px solid var(--color-gold);
+}
+
+.location-item--locked {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.location-item__name {
+  font-size: var(--font-size-md);   /* 手机版稍大 */
+  color: var(--color-ink);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.location-item__lock {
+  font-size: var(--font-size-sm);
+}
+
+.location-item__npcs {
+  margin-top: var(--spacing-xs);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* ── NPC 按钮 ── */
+.npc-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-bg-panel);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-sm);
+  color: var(--color-accent);
+  text-align: left;
+  transition: all 0.15s;
+  width: 100%;
+  min-height: var(--touch-target);  /* 44px */
+}
+
+.npc-btn:active:not(:disabled) {
+  background: var(--color-gold-light);
+  color: white;
+  border-color: var(--color-gold);
+}
+
+.npc-btn--unavailable,
+.npc-btn--arrested {
+  opacity: 0.5;
+}
+
+.npc-btn__title {
+  color: var(--color-ink-faint);
+  font-size: var(--font-size-xs);
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+/* ── 底部操作区（派遣捕快）── */
+.left-sidebar__actions {
+  padding: var(--spacing-md);
+  border-top: 1px solid var(--color-border-light);
+  flex-shrink: 0;
+}
+
+.action-btn {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  min-height: var(--touch-target);
+  background: var(--color-bg-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-md);
+  color: var(--color-ink-light);
+  transition: all 0.15s;
+}
+
+.action-btn:active:not(:disabled) {
+  background: var(--color-accent);
+  color: white;
+  border-color: var(--color-accent);
+}

@@ -1,0 +1,79 @@
+/* ── 底部导航栏 ── */
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* 56px 标签区 + iOS 安全区域（Home Bar）*/
+  height: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: var(--color-ink);
+  border-top: 1px solid var(--color-gold);
+  display: flex;
+  align-items: stretch;
+  z-index: 100;
+  /* 防止子元素被系统手势区域遮挡 */
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* ── 单个标签按钮 ── */
+.mobile-bottom-nav__tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-height: var(--touch-target);
+  color: rgba(240, 232, 208, 0.45);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.05em;
+  transition: color 0.15s;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.mobile-bottom-nav__tab--active {
+  color: var(--color-gold-light);
+}
+
+/* 活跃标签顶部指示线 */
+.mobile-bottom-nav__tab--active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: var(--color-gold-light);
+  border-radius: 0 0 2px 2px;
+}
+
+.mobile-bottom-nav__icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.mobile-bottom-nav__label {
+  font-size: 0.68rem;
+  line-height: 1;
+}
+
+/* ── 角标（条目数量）── */
+.mobile-bottom-nav__badge {
+  position: absolute;
+  top: 4px;
+  right: calc(50% - 20px);
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  background: var(--color-red);
+  color: #fff;
+  font-size: 0.6rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}

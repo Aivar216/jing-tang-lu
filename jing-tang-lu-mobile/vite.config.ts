@@ -6,7 +6,7 @@ import * as http from 'http'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/jing-tang-lu/',
+  base: '/jing-tang-lu/mobile/',
   plugins: [
     react(),
     {
@@ -40,8 +40,6 @@ export default defineConfig({
           req.on('end', () => {
             const body = Buffer.concat(chunks);
 
-            // Forward all headers except host, x-target, and accept-encoding
-            // (removing accept-encoding forces the API to return plain JSON, not gzip/br)
             const forwardHeaders: Record<string, string | string[]> = {};
             for (const [k, v] of Object.entries(req.headers)) {
               if (k === 'host' || k === 'x-target' || k === 'accept-encoding') continue;
@@ -81,7 +79,6 @@ export default defineConfig({
           });
         });
 
-        // Handle preflight OPTIONS
         server.middlewares.use('/dev-proxy', (req: IncomingMessage, res: ServerResponse) => {
           if (req.method === 'OPTIONS') {
             res.writeHead(204, {
@@ -95,4 +92,7 @@ export default defineConfig({
       },
     },
   ],
+  server: {
+    port: 5174,
+  },
 })

@@ -1,0 +1,168 @@
+/* ── 案情板容器 ── */
+.conflict-board {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 39px,
+      rgba(139, 90, 43, 0.08) 40px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 39px,
+      rgba(139, 90, 43, 0.08) 40px
+    );
+  background-color: var(--color-parchment, #f5ede0);
+  border: 1px solid var(--color-border, #c8a96e);
+  border-radius: 4px;
+  overflow: visible;
+  user-select: none;
+}
+
+/* SVG 连线层 */
+.conflict-board__lines {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* 正在判断提示 */
+.conflict-board__checking {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(139, 26, 26, 0.9);
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* 空状态 */
+.conflict-board__empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--color-text-muted, #a08060);
+  font-size: 0.82rem;
+  text-align: center;
+  line-height: 1.9;
+  /* 宽度占父容器 75%，最小 200px，最大 380px，避免单行过短导致碎行 */
+  width: clamp(200px, 75%, 380px);
+}
+
+/* ── 笔记卡片 ── */
+.board-card {
+  position: absolute;
+  width: 170px;
+  min-height: 100px;
+  background: #fffdf7;
+  border: 1px solid #d4b483;
+  border-radius: 4px;
+  padding: 10px 12px;
+  cursor: grab;
+  box-shadow: 2px 3px 8px rgba(80, 50, 20, 0.12);
+  transition: box-shadow 0.15s ease;
+  z-index: 10;
+}
+
+.board-card:active {
+  cursor: grabbing;
+  box-shadow: 4px 6px 16px rgba(80, 50, 20, 0.22);
+  z-index: 20;
+}
+
+/* 已发现矛盾的卡片 */
+.board-card--conflict {
+  border-color: #8b1a1a;
+  box-shadow: 2px 3px 8px rgba(139, 26, 26, 0.25), 0 0 0 2px rgba(139, 26, 26, 0.15);
+}
+
+/* 矛盾记录卡片 */
+.board-card--conflict-record {
+  width: 200px;
+  background: #fff5f5;
+  border-color: #8b1a1a;
+  cursor: default;
+  z-index: 5;
+}
+
+/* ── 卡片内部 ── */
+.board-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  gap: 4px;
+}
+
+.board-card__speaker {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-dark, #3a2010);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.board-card__day {
+  font-size: 0.72rem;
+  color: var(--color-text-muted, #a08060);
+  flex-shrink: 0;
+}
+
+.board-card__content {
+  font-size: 0.78rem;
+  color: var(--color-text, #4a3020);
+  line-height: 1.55;
+  word-break: break-all;
+}
+
+/* 矛盾徽章 */
+.board-card__conflict-badge {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #8b1a1a;
+}
+
+/* 矛盾来源摘要 */
+.board-card__sources {
+  margin-top: 6px;
+  font-size: 0.7rem;
+  color: #a05050;
+  border-top: 1px solid #f0c0c0;
+  padding-top: 4px;
+  line-height: 1.4;
+}
+
+/* 闪烁动画（用于碰撞检测成功） */
+@keyframes board-card-flash {
+  0%, 100% { background: #fffdf7; }
+  50% { background: #fff0c0; }
+}
+
+.board-card--flash {
+  animation: board-card-flash 0.4s ease 2;
+}
+
+/* loading dots */
+.loading-dots::after {
+  content: '…';
+  animation: dots 1.2s steps(3, end) infinite;
+}
+
+@keyframes dots {
+  0%   { content: ''; }
+  33%  { content: '.'; }
+  66%  { content: '..'; }
+  100% { content: '…'; }
+}

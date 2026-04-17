@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>惊堂录 · 沉香劫</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #1a0f00;
+      color: #f0e8d0;
+      font-family: 'LXGW WenKai', 'Noto Serif SC', serif;
+      display: flex;
+      height: 100vh;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 20px;
+    }
+    h1 { font-size: 1.4rem; color: #c8a84b; letter-spacing: 0.2em; }
+    p  { font-size: 0.85rem; color: rgba(240,232,208,0.5); }
+    .links { display: flex; gap: 24px; margin-top: 8px; }
+    a { color: #c8a84b; font-size: 0.9rem; text-decoration: none; border-bottom: 1px solid rgba(200,168,75,0.4); padding-bottom: 2px; }
+    a:hover { border-color: #c8a84b; }
+  </style>
+</head>
+<body>
+  <script>
+    // UA + 屏幕宽度双重判断
+    var isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+                || window.innerWidth < 768;
+    var base = location.pathname.replace(/\/?$/, '/');
+    location.replace(isMobile ? base + 'mobile/' : base + 'desktop/');
+  </script>
+
+  <!-- JS 禁用时的备用链接 -->
+  <h1>惊堂录 · 沉香劫</h1>
+  <p>正在跳转，请稍候……</p>
+  <div class="links">
+    <a href="desktop/">桌面版</a>
+    <a href="mobile/">手机版</a>
+  </div>
+</body>
+</html>

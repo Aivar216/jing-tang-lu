@@ -1,0 +1,140 @@
+.topbar {
+  min-height: var(--topbar-height); /* 44px */
+  height: var(--topbar-height);
+  background: var(--color-ink);
+  color: var(--color-court-text);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--spacing-sm);
+  gap: var(--spacing-xs);
+  border-bottom: 2px solid var(--color-gold);
+  flex-shrink: 0;
+}
+
+/* 设置按钮（左侧图标） */
+.topbar__settings-btn {
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius);
+  font-size: 1.1rem;
+  color: var(--color-gold-light);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(200, 168, 75, 0.3);
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.topbar__settings-btn:active {
+  background: rgba(200, 168, 75, 0.2);
+}
+
+.topbar__settings-btn--warn {
+  color: #f4c842;
+  border-color: #f4c842;
+  background: rgba(244, 200, 66, 0.12);
+  animation: pulse-warn 2s ease-in-out infinite;
+}
+
+@keyframes pulse-warn {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* 中央日期 + 断案令进度 */
+.topbar__center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.topbar__day {
+  font-size: var(--font-size-sm);
+  color: var(--color-court-text);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+/* 断案令进度点（极简版，直径 5px） */
+.topbar__deadline-dots {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.topbar__ddot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(200, 168, 75, 0.4);
+  flex-shrink: 0;
+}
+
+.topbar__ddot--past {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+}
+
+.topbar__ddot--current {
+  border-color: var(--color-gold-light);
+  box-shadow: 0 0 4px var(--color-gold-light);
+  transform: scale(1.25);
+}
+
+.topbar__ddot--urgent {
+  border-color: #f07040;
+}
+
+.topbar__ddot--urgent.topbar__ddot--past {
+  background: #f07040;
+}
+
+.topbar__ddot--urgent.topbar__ddot--current {
+  border-color: #f07040;
+  box-shadow: 0 0 5px #f07040;
+  animation: pulse-warn 1.5s ease-in-out infinite;
+}
+
+/* 右侧统计区 */
+.topbar__stats {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  flex-shrink: 0;
+}
+
+.topbar__dots {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.topbar__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-ink-faint);
+  border: 1px solid var(--color-border);
+}
+
+.topbar__dot--active {
+  background: var(--color-gold-light);
+  border-color: var(--color-gold);
+}
+
+.topbar__stat-chip {
+  font-size: var(--font-size-xs);
+  color: var(--color-gold-light);
+  white-space: nowrap;
+  padding: 2px 5px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(200, 168, 75, 0.2);
+  border-radius: 3px;
+}

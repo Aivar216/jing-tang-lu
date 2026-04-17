@@ -1,0 +1,292 @@
+/* ── 对话面板（全高）── */
+.dialogue-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-bg-panel);
+}
+
+/* ── 头部 ── */
+.dialogue-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-bg-dark);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+  min-height: var(--touch-target);
+}
+
+.dialogue-header__info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.dialogue-header__name {
+  font-size: var(--font-size-md);
+  color: var(--color-ink);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.dialogue-header__title {
+  font-size: var(--font-size-xs);
+  color: var(--color-ink-faint);
+  white-space: nowrap;
+}
+
+.dialogue-header__trust {
+  font-size: var(--font-size-xs);
+  flex-shrink: 0;
+}
+
+.dialogue-header__close {
+  padding: var(--spacing-xs) var(--spacing-md);
+  min-height: 36px;
+  background: rgba(122,16,16,0.08);
+  border: 1px solid rgba(122,16,16,0.3);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-sm);
+  color: var(--color-red);
+  font-weight: 600;
+  transition: all 0.15s;
+  flex-shrink: 0;
+  margin-left: var(--spacing-sm);
+}
+
+.dialogue-header__close:active {
+  background: #7a1010;
+  color: #fff;
+  border-color: #7a1010;
+}
+
+/* ── 消息列表 ── */
+.dialogue-messages {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.dialogue-messages__empty {
+  color: var(--color-ink-faint);
+  font-size: var(--font-size-sm);
+  text-align: center;
+  margin-top: var(--spacing-xl);
+  line-height: 1.8;
+}
+
+.dialogue-messages__empty .hint {
+  margin-top: var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  color: var(--color-ink-faint);
+}
+
+/* ── 消息气泡 ── */
+.message-bubble {
+  max-width: 88%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.message-bubble--player {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.message-bubble--npc {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.message-bubble__speaker {
+  font-size: var(--font-size-xs);
+  color: var(--color-ink-faint);
+}
+
+.message-bubble__content {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 10px;
+  font-size: var(--font-size-md);
+  line-height: 1.8;
+}
+
+.message-bubble--player .message-bubble__content {
+  background: var(--color-player-bubble);
+  border: 1px solid var(--color-border-light);
+  border-bottom-right-radius: 3px;
+}
+
+.message-bubble--npc .message-bubble__content {
+  background: var(--color-npc-bubble);
+  border: 1px solid var(--color-border-light);
+  border-bottom-left-radius: 3px;
+}
+
+.message-bubble--loading .message-bubble__content {
+  color: var(--color-ink-faint);
+  font-style: italic;
+}
+
+.dialogue-error {
+  color: var(--color-red);
+  font-size: var(--font-size-sm);
+  padding: var(--spacing-sm);
+  background: #fde8e8;
+  border-radius: var(--border-radius);
+}
+
+/* ── 已选记录内联卡片（替代绝对定位浮层）── */
+.dialogue-cited-inline {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: #fef5d8;
+  border-top: 1px solid #e8d89a;
+  font-size: var(--font-size-xs);
+  flex-shrink: 0;
+}
+
+.dialogue-cited-inline__label {
+  color: var(--color-gold);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.dialogue-cited-inline__content {
+  flex: 1;
+  color: var(--color-accent);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.dialogue-cited-inline__remove {
+  color: #b8a880;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  min-width: 28px;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dialogue-cited-inline__remove:active {
+  color: var(--color-red);
+}
+
+/* ── 操作栏（施压 + 出示）── */
+.dialogue-actions {
+  display: flex;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: var(--color-bg-dark);
+  border-top: 1px solid var(--color-border-light);
+  flex-shrink: 0;
+}
+
+.dialogue-action-btn {
+  flex: 1;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  min-height: var(--touch-target);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-xs);
+  border: 1px solid var(--color-border);
+  color: var(--color-ink-faint);
+  background: var(--color-bg-panel);
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.dialogue-action-btn:active:not(:disabled) {
+  color: var(--color-ink);
+  background: var(--color-bg);
+}
+
+/* 施压激活 */
+.dialogue-action-btn--pressure.dialogue-action-btn--armed {
+  background: #4a1010;
+  color: #f47070;
+  border-color: #8b1a1a;
+}
+
+/* 施压耗尽 */
+.dialogue-action-btn--exhausted {
+  opacity: 0.45;
+}
+
+/* 已选笔记 */
+.dialogue-action-btn--has-note {
+  color: var(--color-accent);
+  border-color: var(--color-gold-light);
+  background: #fef8e8;
+}
+
+/* ── 输入区 ── */
+.dialogue-input {
+  display: flex;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-dark);
+  flex-shrink: 0;
+  /* 确保不被虚拟键盘遮挡：依赖 100dvh 布局 */
+  align-items: flex-end;
+}
+
+.dialogue-input__textarea {
+  flex: 1;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-bg-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  font-size: 16px;            /* 防止 iOS 自动缩放 */
+  color: var(--color-ink);
+  resize: none;
+  line-height: 1.6;
+  min-height: var(--touch-target);
+  max-height: 100px;
+}
+
+.dialogue-input__textarea:focus {
+  outline: none;
+  border-color: var(--color-gold);
+}
+
+.dialogue-input__send {
+  padding: var(--spacing-sm) var(--spacing-md);
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  background: var(--color-ink);
+  color: var(--color-gold-light);
+  border: 1px solid var(--color-gold);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-lg);
+  transition: all 0.15s;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dialogue-input__send:active:not(:disabled) {
+  background: var(--color-accent);
+}

@@ -1,0 +1,17 @@
+.story-log-panel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  padding-left: 0;
+  background: var(--color-bg-dark);
+}
+.story-log-panel__entries { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: var(--spacing-sm) var(--spacing-md); }
+.story-log-panel__empty { padding: var(--spacing-lg); font-size: var(--font-size-sm); color: var(--color-ink-faint); text-align: center; line-height: 1.8; }
+.story-log-day-divider { text-align: center; font-size: var(--font-size-xs); color: var(--color-ink-faint); letter-spacing: 0.2em; margin: var(--spacing-md) 0 var(--spacing-sm); position: relative; }
+.story-log-day-divider::before, .story-log-day-divider::after { content: ''; position: absolute; top: 50%; width: 25%; height: 1px; background: var(--color-border-light); }
+.story-log-day-divider::before { left: 0; }
+.story-log-day-divider::after { right: 0; }
+.sl-day-change { text-align: center; font-size: var(--font-size-xs); color: var(--color-ink-faint); font-style: italic; padding: 4px 0; letter-spacing: 0.05em; }
+.sl-prose-entry { font-size: var(--font-size-sm); line-height: 1.9; color: var(--color-ink-light); padding: 2px 0 2px 8px; margin-bottom: 2px; }

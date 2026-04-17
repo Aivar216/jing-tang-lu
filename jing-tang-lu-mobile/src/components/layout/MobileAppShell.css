@@ -1,0 +1,32 @@
+/* ── 整体壳层 ── */
+.mobile-app-shell {
+  display: flex;
+  flex-direction: column;
+  /* 使用动态视口高度，适配移动浏览器工具栏 */
+  height: 100dvh;
+  overflow: hidden;
+  /* iOS 顶部安全区（刘海/灵动岛）*/
+  padding-top: env(safe-area-inset-top, 0px);
+  background: var(--color-bg);
+}
+
+/* ── 内容区：顶栏与底部导航之间 ── */
+.mobile-app-shell__body {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+  /* 为固定在底部的导航栏预留空间 */
+  padding-bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px));
+}
+
+/* ── 单个标签面板 ── */
+.mobile-tab-panel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* 平滑 iOS 触控滚动 */
+  -webkit-overflow-scrolling: touch;
+}

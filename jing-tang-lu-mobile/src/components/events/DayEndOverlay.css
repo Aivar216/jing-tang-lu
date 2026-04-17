@@ -1,0 +1,146 @@
+.day-end-overlay {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: rgba(44, 36, 22, 0.7);
+  padding: var(--spacing-lg) var(--spacing-md);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.day-end-card {
+  max-width: 100%;
+  width: 100%;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-gold);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.day-end-card__title {
+  font-size: var(--font-size-xl);
+  color: var(--color-gold);
+  letter-spacing: 0.2em;
+  text-align: center;
+}
+
+/* 断案令倒计时提示 */
+.day-end-deadline {
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: #c88a40;
+  background: rgba(200, 138, 64, 0.1);
+  border: 1px solid rgba(200, 138, 64, 0.3);
+  border-radius: 8px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  letter-spacing: 0.05em;
+}
+
+.day-end-deadline--urgent {
+  color: #d05040;
+  background: rgba(208, 80, 64, 0.12);
+  border-color: rgba(208, 80, 64, 0.4);
+  font-weight: 600;
+}
+
+/* 今日成果 grid */
+.day-end-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
+
+.day-end-summary-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: var(--spacing-sm);
+  background: rgba(200, 168, 75, 0.06);
+  border-radius: var(--border-radius);
+  min-height: 56px;
+  justify-content: center;
+}
+
+.day-end-summary-item__value {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-gold-light);
+}
+
+.day-end-summary-item__label {
+  font-size: var(--font-size-xs);
+  color: var(--color-ink-faint);
+}
+
+.day-end-section {
+  background: var(--color-bg-dark);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+}
+
+.day-end-section--alert {
+  border-color: var(--color-gold-light);
+  background: #fef8e8;
+}
+
+.day-end-section__label {
+  font-size: var(--font-size-xs);
+  color: var(--color-gold);
+  letter-spacing: 0.1em;
+  margin-bottom: var(--spacing-sm);
+}
+
+.day-end-section__content {
+  font-size: var(--font-size-sm);
+  color: var(--color-ink);
+  line-height: 1.9;
+  white-space: pre-line;
+}
+
+.day-end-section__content--muted {
+  color: var(--color-ink-faint);
+  font-style: italic;
+  text-align: center;
+}
+
+.day-end-section__evidence-tag {
+  margin-top: var(--spacing-sm);
+}
+
+.day-end-card__status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-ink-faint);
+  border-top: 1px solid var(--color-border-light);
+  padding-top: var(--spacing-md);
+}
+
+.day-end-card__btn {
+  align-self: stretch;
+  padding: var(--spacing-md);
+  min-height: var(--touch-target);
+  background: var(--color-ink);
+  color: var(--color-gold-light);
+  border: 1px solid var(--color-gold);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-md);
+  letter-spacing: 0.1em;
+  transition: all 0.15s;
+  text-align: center;
+}
+
+.day-end-card__btn:active {
+  background: var(--color-accent);
+}

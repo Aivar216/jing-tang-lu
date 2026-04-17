@@ -1,0 +1,114 @@
+.search-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(20, 12, 5, 0.6);
+  backdrop-filter: blur(2px);
+}
+
+.search-modal {
+  width: 100%;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+  box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  animation: search-modal-in 0.25s ease;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@keyframes search-modal-in {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.search-modal__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.search-modal__icon {
+  font-size: 1.3rem;
+}
+
+.search-modal__title {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-accent);
+  letter-spacing: 0.08em;
+}
+
+.search-modal__body {
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.search-modal__desc {
+  font-size: var(--font-size-md);
+  color: var(--color-ink);
+  line-height: 1.8;
+  margin: 0 0 12px;
+}
+
+.search-modal__meta {
+  font-size: var(--font-size-sm);
+  color: var(--color-ink-faint);
+}
+
+.search-modal__evidence-title {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  color: var(--color-gold-light);
+  margin-bottom: 8px;
+}
+
+.search-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 20px;
+  background: rgba(200, 169, 110, 0.06);
+  border-top: 1px solid var(--color-border-light);
+}
+
+.search-modal__footer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
+.search-modal__recorded {
+  font-size: var(--font-size-sm);
+  color: #5a8a5a;
+  font-weight: 500;
+}
+
+.search-modal__progress {
+  font-size: var(--font-size-xs);
+  color: var(--color-ink-faint);
+}
+
+.search-modal__confirm {
+  padding: 10px 24px;
+  min-height: var(--touch-target);
+  background: var(--color-accent);
+  color: var(--color-bg-dark);
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.search-modal__confirm:active {
+  opacity: 0.85;
+}

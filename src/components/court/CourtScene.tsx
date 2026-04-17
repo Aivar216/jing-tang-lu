@@ -80,9 +80,11 @@ export function CourtScene() {
           const isNpcExchange = turn.actor !== 'player' && turn.actor !== 'narrator'
             && prevTurn != null && prevTurn.actor !== 'player' && prevTurn.actor !== 'narrator'
             && prevTurn.actor !== turn.actor;
+          // 只在回复玩家时显示人名，NPC互相对话时不显示
+          const showSpeaker = turn.actor !== 'narrator' && !isNpcExchange;
           return (
             <div key={i} className={`court-turn court-turn--${turn.actor === 'player' ? 'player' : turn.actor === 'narrator' ? 'narrator' : 'npc'}${isNpcExchange ? ' court-turn--exchange' : ''}`}>
-              {turn.actor !== 'narrator' && (
+              {showSpeaker && (
                 <div className="court-turn__speaker">{actorName}</div>
               )}
               <div className="court-turn__content">{turn.content}</div>

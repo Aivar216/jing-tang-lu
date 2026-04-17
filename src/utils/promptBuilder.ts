@@ -47,26 +47,38 @@ export function buildContextAppend(
     );
   }
 
-  // 出示笔记指令
+  // 出示笔记指令（加强版：要求有意义的回应）
   if (citedEntry) {
     const typeLabel = (citedEntry as { entryType?: string }).entryType === 'physical' ? '物证'
       : (citedEntry as { entryType?: string }).entryType === 'observation' ? '观察记录'
       : '证词';
     parts.push(
       `[系统：玩家向你出示了一条${typeLabel}：「${citedEntry.rawDialogueSummary}」。` +
-      `请根据这条信息和你自己知道的真相来做出反应。` +
-      `如果这条信息直接指向你的秘密或谎言，你应该表现出明显的情绪波动（但不一定要承认）。` +
-      `如果这条信息与你无关，简短回应即可。出示了新信息时你可以更活跃地回应。]`
+      `你必须对这条信息做出有意义的回应——可以质疑来源、补充细节、表现出情绪波动、或者承认某些事实。` +
+      `绝对不能说"我不知道"、"这与我无关"、"我不清楚"然后就结束。` +
+      `即使这条信息表面上与你无关，你也应该基于你所知道的情况给出评论或反应。]`
     );
   }
 
-  // 对话轮次衰减指令（始终注入）
-  if (turnCount >= 5) {
-    const msg = turnCount >= 7
+  // 对话轮次指令
+  if (turnCount <= 2) {
+    // 初期：鼓励配合，主动提供基础信息
+    parts.push(
+      `[系统：这是第 ${turnCount} 轮对话，对话刚开始。` +
+      `你应该表现得比较配合，主动提供你知道的基础事实（时间、地点、你在做什么等）。` +
+      `不要一问三不知或刻意回避——那太不自然了，反而显得可疑。]`
+    );
+  } else if (turnCount >= 6) {
+    const msg = turnCount >= 8
       ? `这是第 ${turnCount} 轮对话，你已经明确没有更多想说的内容，每次回答都应是变着花样的拒绝或敷衍。`
       : `这是第 ${turnCount} 轮对话，你开始出现没有更多可说的迹象，回答应变短变敷衍。`;
     const override = citedEntry ? '但本轮玩家出示了新信息，你可以重新活跃起来正常回答。' : '';
     parts.push(`[系统：${msg}${override}]`);
+  } else if (turnCount >= 4) {
+    // 中期：开始略显不耐烦
+    parts.push(
+      `[系统：这是第 ${turnCount} 轮对话，你开始有些不耐烦，回答可以稍微简短一些，但仍然要提供有意义的内容。]`
+    );
   } else {
     parts.push(`[系统：这是第 ${turnCount} 轮对话，正常回应即可。]`);
   }

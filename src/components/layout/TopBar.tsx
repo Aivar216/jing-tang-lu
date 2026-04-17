@@ -27,8 +27,24 @@ export function TopBar() {
         <div className="topbar__title">惊堂录 · 沉香劫</div>
 
         <div className="topbar__center">
-          <div className="topbar__deadline">
-            <span className="topbar__deadline-label">断案令</span>
+          <span className="topbar__day">第 {state.currentDay} 天 · {PERIOD_LABELS[state.currentPeriod]}</span>
+        </div>
+
+        <div className="topbar__stats">
+          <div className="topbar__stat">
+            <span className="topbar__stat-label">行动</span>
+            <div className="topbar__dots">
+              {[0, 1, 2].map(i => (
+                <span
+                  key={i}
+                  className={`topbar__dot ${i < state.actionPoints ? 'topbar__dot--active' : ''}`}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="topbar__stat">
+            <span className="topbar__stat-label">断案</span>
             <div className="topbar__deadline-dots">
               {Array.from({ length: TOTAL_DAYS }, (_, i) => {
                 const day = i + 1;
@@ -43,21 +59,6 @@ export function TopBar() {
                   />
                 );
               })}
-            </div>
-          </div>
-          <span className="topbar__day">第 {state.currentDay} 天 · {PERIOD_LABELS[state.currentPeriod]}</span>
-        </div>
-
-        <div className="topbar__stats">
-          <div className="topbar__stat">
-            <span className="topbar__stat-label">行动</span>
-            <div className="topbar__dots">
-              {[0, 1, 2].map(i => (
-                <span
-                  key={i}
-                  className={`topbar__dot ${i < state.actionPoints ? 'topbar__dot--active' : ''}`}
-                />
-              ))}
             </div>
           </div>
 

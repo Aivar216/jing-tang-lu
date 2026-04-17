@@ -26,8 +26,10 @@ export function SearchResultModal({ title, description, sourceLabel, entryType, 
           </div>
         </div>
         <div className="search-modal__footer">
-          <span className="search-modal__recorded">✓ 已录入案卷 · {entryType}</span>
-          <span className="search-modal__progress">{evidenceProgress} · {actionProgress}</span>
+          <div className="search-modal__footer-info">
+            <span className="search-modal__recorded">✓ 已录入案卷 · {entryType}</span>
+            <span className="search-modal__progress">{evidenceProgress} · {actionProgress}</span>
+          </div>
           <button className="search-modal__confirm" onClick={onClose}>继续调查</button>
         </div>
       </div>

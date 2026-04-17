@@ -86,12 +86,12 @@
 
 /* NPC 对质：NPC 之间互相对话 */
 .court-turn--exchange {
-  margin-left: var(--spacing-lg);
-  opacity: 0.9;
+  opacity: 0.85;
 }
 
 .court-turn--exchange .court-turn__content {
-  border-left: 2px solid var(--color-gold);
+  border-left: 2px solid rgba(200, 168, 75, 0.4);
+  font-size: var(--font-size-xs);
 }
 
 .court-turn--narrator {

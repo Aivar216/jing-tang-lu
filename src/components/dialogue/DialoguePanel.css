@@ -288,7 +288,7 @@
 /* ── 已选笔记 — 浮动卡片（像把证据纸条放到桌上）── */
 .dialogue-cited-card {
   position: absolute;
-  bottom: 60px;
+  bottom: 140px;
   left: 14px;
   max-width: 260px;
   background:

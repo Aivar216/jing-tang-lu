@@ -26,19 +26,22 @@
 </head>
 <body>
   <script>
-    // UA + 屏幕宽度双重判断
-    var isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
-                || window.innerWidth < 768;
+    var ua = navigator.userAgent;
+    // 多重判断：UA 关键词 + 屏幕宽度 + 触控点数
+    var isMobile = /Mobi|Mobile|Android|iPhone|iPad|iPod|Windows Phone|BlackBerry|webOS/i.test(ua)
+                || window.screen.width < 768
+                || window.innerWidth < 768
+                || (navigator.maxTouchPoints > 1 && window.screen.width < 1024);
     var base = location.pathname.replace(/\/?$/, '/');
     location.replace(isMobile ? base + 'mobile/' : base + 'desktop/');
   </script>
 
-  <!-- JS 禁用时的备用链接 -->
+  <!-- JS 禁用 / 跳转失败时的备用界面 -->
   <h1>惊堂录 · 沉香劫</h1>
-  <p>正在跳转，请稍候……</p>
+  <p>请选择版本：</p>
   <div class="links">
-    <a href="desktop/">桌面版</a>
-    <a href="mobile/">手机版</a>
+    <a href="mobile/">📱 手机版</a>
+    <a href="desktop/">🖥 桌面版</a>
   </div>
 </body>
 </html>

@@ -16,8 +16,8 @@ export function FinalJudgment() {
   const [confirmed, setConfirmed] = useState(false);
 
   const allNpcs = NPC_DEFINITIONS;
-  const killerOptions = allNpcs.filter(n => !state.npcs[n.id]?.isArrested);
-  const mastermindOptions = allNpcs.filter(n => n.id !== killer && !state.npcs[n.id]?.isArrested);
+  const killerOptions = allNpcs;
+  const mastermindOptions = allNpcs.filter(n => n.id !== killer);
 
   const handleSubmit = () => {
     if (!killer) return;
@@ -103,7 +103,10 @@ export function FinalJudgment() {
                   className={`judgment-option ${killer === s.id ? 'judgment-option--selected' : ''}`}
                   onClick={() => setKiller(s.id)}
                 >
-                  <span className="judgment-option__name">{s.name}</span>
+                  <span className="judgment-option__name">
+                    {s.name}
+                    {state.npcs[s.id]?.isArrested && <span className="judgment-option__arrested">已收押</span>}
+                  </span>
                   <span className="judgment-option__title">{s.title}</span>
                 </button>
               ))}
@@ -157,7 +160,10 @@ export function FinalJudgment() {
                   className={`judgment-option ${mastermind === s.id ? 'judgment-option--selected' : ''}`}
                   onClick={() => setMastermind(s.id)}
                 >
-                  <span className="judgment-option__name">{s.name}</span>
+                  <span className="judgment-option__name">
+                    {s.name}
+                    {state.npcs[s.id]?.isArrested && <span className="judgment-option__arrested">已收押</span>}
+                  </span>
                   <span className="judgment-option__title">{s.title}</span>
                 </button>
               ))}

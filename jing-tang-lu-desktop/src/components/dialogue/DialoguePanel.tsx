@@ -29,9 +29,25 @@ export function DialoguePanel({ npcId }: Props) {
   const npcDef = NPC_DEFINITIONS.find(n => n.id === npcId);
   const npcState = state.npcs[npcId];
 
+  // 自动结束问询：玩家切换地点/关闭对话时 unmount，自动触发 AI 总结
+  const endConversationRef = useRef(endConversation);
+  endConversationRef.current = endConversation;
+  useEffect(() => {
+    return () => { endConversationRef.current(); };
+  }, []);
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [history, isLoading]);
+
+  // Bug #9: isLoading 结束后自动恢复输入焦点
+  const prevIsLoading = useRef(isLoading);
+  useEffect(() => {
+    if (prevIsLoading.current && !isLoading) {
+      inputRef.current?.focus();
+    }
+    prevIsLoading.current = isLoading;
+  }, [isLoading]);
 
   const handleSend = async () => {
     const trimmed = input.trim();

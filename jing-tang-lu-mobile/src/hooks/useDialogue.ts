@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import type { NpcId } from '../types/npc';
 import type { NotebookEntry } from '../types/notebook';
 import { useGame } from '../state/GameContext';
@@ -14,6 +14,8 @@ export function useDialogue(npcId: NpcId) {
   // Phase 2: 施压和出示笔记状态
   const [isPressureArmed, setIsPressureArmed] = useState(false); // 下次发送是否施压
   const [citedEntry, setCitedEntry] = useState<NotebookEntry | null>(null);
+
+  const alreadyEndedRef = useRef(false);
 
   const pressureUsedCount = state.pressureUsed[npcId] ?? 0;
   const canPressure = pressureUsedCount < 2;
@@ -63,8 +65,9 @@ export function useDialogue(npcId: NpcId) {
   );
 
   const endConversation = useCallback(() => {
+    if (alreadyEndedRef.current) return;
+    alreadyEndedRef.current = true;
     const history = state.npcs[npcId].conversationHistory;
-    // Bug #12: 先立即关闭对话（非阻塞），再异步提取笔记
     dispatch({ type: 'END_CONVERSATION', npcId, entry: null });
 
     if (history.length === 0) return;

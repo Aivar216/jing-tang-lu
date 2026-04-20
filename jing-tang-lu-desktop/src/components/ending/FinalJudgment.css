@@ -94,6 +94,18 @@
   color: rgba(240, 232, 208, 0.5);
 }
 
+.judgment-option__arrested {
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 0.65rem;
+  color: #f07070;
+  border: 1px solid rgba(240, 112, 112, 0.45);
+  border-radius: 2px;
+  padding: 0 4px;
+  vertical-align: middle;
+  line-height: 1.4;
+}
+
 .final-judgment__summary {
   padding: var(--spacing-sm);
   border: 1px solid rgba(200, 168, 75, 0.2);

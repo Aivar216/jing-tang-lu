@@ -30,6 +30,13 @@ export function DialoguePanel({ npcId }: Props) {
   const npcDef = NPC_DEFINITIONS.find(n => n.id === npcId);
   const npcState = state.npcs[npcId];
 
+  // 自动结束问询：切换地点等导致组件卸载时自动触发 AI 总结
+  const endConversationRef = useRef(endConversation);
+  endConversationRef.current = endConversation;
+  useEffect(() => {
+    return () => { endConversationRef.current(); };
+  }, []);
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [history, isLoading]);

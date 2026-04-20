@@ -1,7 +1,7 @@
 import { useGame } from '../../state/GameContext';
 import './MobileBottomNav.css';
 
-export type MobileTab = 'map' | 'investigation' | 'notebook' | 'storylog';
+export type MobileTab = 'investigation' | 'notebook' | 'storylog';
 
 interface Props {
   activeTab: MobileTab;
@@ -9,7 +9,6 @@ interface Props {
 }
 
 const TABS: { id: MobileTab; icon: string; label: string }[] = [
-  { id: 'map',           icon: '🗺',  label: '地图' },
   { id: 'investigation', icon: '⚔',  label: '调查' },
   { id: 'notebook',      icon: '📋', label: '案卷' },
   { id: 'storylog',      icon: '📖', label: '剧情' },

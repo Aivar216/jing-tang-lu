@@ -32,3 +32,30 @@
   overflow: hidden;
   -webkit-overflow-scrolling: touch;
 }
+
+/* ── 调查面板：地图（地点/NPC）+ 主内容上下分区 ── */
+.mobile-inv-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* 上区：地点/NPC 列表，高度弹性但有上限 */
+.mobile-inv-layout__sidebar {
+  flex-shrink: 0;
+  max-height: min(42vh, 260px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  border-bottom: 2px solid var(--color-border);
+}
+
+/* 下区：调查/对话/法庭主内容，占满剩余高度 */
+.mobile-inv-layout__main {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}

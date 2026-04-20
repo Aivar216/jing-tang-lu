@@ -37,16 +37,17 @@ export function MobileAppShell() {
         {/* 所有标签面板始终挂载，用 display:none 切换以保留滚动位置 */}
         <div
           className="mobile-tab-panel"
-          style={{ display: effectiveTab === 'map' ? 'flex' : 'none' }}
-        >
-          <LeftSidebar />
-        </div>
-
-        <div
-          className="mobile-tab-panel"
           style={{ display: effectiveTab === 'investigation' ? 'flex' : 'none' }}
         >
-          <MainPanel />
+          {/* 地图（地点/NPC选择）+ 调查内容合并为一个面板，上下布局 */}
+          <div className="mobile-inv-layout">
+            <div className="mobile-inv-layout__sidebar">
+              <LeftSidebar />
+            </div>
+            <div className="mobile-inv-layout__main">
+              <MainPanel />
+            </div>
+          </div>
         </div>
 
         <div

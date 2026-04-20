@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { NpcId } from '../../types/npc';
 import type { Verdict } from '../../types/court';
 import { useCourt } from '../../hooks/useCourt';
@@ -15,6 +15,15 @@ export function CourtScene() {
   const [citedEntryId, setCitedEntryId] = useState<string | undefined>();
   const [showEvidenceSelector, setShowEvidenceSelector] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  // Bug #9: isLoading 结束后自动恢复输入焦点
+  const prevIsLoading = useRef(isLoading);
+  useEffect(() => {
+    if (prevIsLoading.current && !isLoading) {
+      inputRef.current?.focus();
+    }
+    prevIsLoading.current = isLoading;
+  }, [isLoading]);
 
   if (!activeSession) return null;
 
@@ -80,8 +89,8 @@ export function CourtScene() {
           const isNpcExchange = turn.actor !== 'player' && turn.actor !== 'narrator'
             && prevTurn != null && prevTurn.actor !== 'player' && prevTurn.actor !== 'narrator'
             && prevTurn.actor !== turn.actor;
-          // 只在回复玩家时显示人名，NPC互相对话时不显示
-          const showSpeaker = turn.actor !== 'narrator' && !isNpcExchange;
+          // NPC 说话人始终显示（isNpcExchange 仅用于视觉样式，不控制姓名）
+          const showSpeaker = turn.actor !== 'narrator';
           return (
             <div key={i} className={`court-turn court-turn--${turn.actor === 'player' ? 'player' : turn.actor === 'narrator' ? 'narrator' : 'npc'}${isNpcExchange ? ' court-turn--exchange' : ''}`}>
               {showSpeaker && (
@@ -158,13 +167,16 @@ export function CourtScene() {
             </div>
           )}
 
+          {/* 出示记录 — 浮动卡片 */}
+          {citedEntry && (
+            <div className="court-cited-card">
+              <div className="court-cited-card__label">引用</div>
+              <div className="court-cited-card__content">「{citedEntry.rawDialogueSummary}」</div>
+              <button className="court-cited-card__remove" onClick={() => setCitedEntryId(undefined)}>✕</button>
+            </div>
+          )}
+
           <div className="court-input__row">
-            {citedEntry && (
-              <div className="court-input__cited">
-                📋 引用：「{citedEntry.rawDialogueSummary}」
-                <button onClick={() => setCitedEntryId(undefined)}>✕</button>
-              </div>
-            )}
             <button className="court-input__evidence-btn" onClick={() => setShowEvidenceSelector(s => !s)}>
               引用记录
             </button>

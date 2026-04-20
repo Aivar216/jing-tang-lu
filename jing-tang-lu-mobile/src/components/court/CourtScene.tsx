@@ -90,7 +90,8 @@ export function CourtScene() {
           const isNpcExchange = turn.actor !== 'player' && turn.actor !== 'narrator'
             && prevTurn != null && prevTurn.actor !== 'player' && prevTurn.actor !== 'narrator'
             && prevTurn.actor !== turn.actor;
-          const showSpeaker = turn.actor !== 'narrator' && !isNpcExchange;
+          // NPC 说话人始终显示（isNpcExchange 仅用于视觉样式，不控制姓名）
+          const showSpeaker = turn.actor !== 'narrator';
           return (
             <div key={i} className={`court-turn court-turn--${turn.actor === 'player' ? 'player' : turn.actor === 'narrator' ? 'narrator' : 'npc'}${isNpcExchange ? ' court-turn--exchange' : ''}`}>
               {showSpeaker && (

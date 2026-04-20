@@ -48,7 +48,7 @@ export function buildCourtNarratorClosing(): string {
 }
 
 export const COURT_MAX_TURNS = 3;
-export const MAX_NPC_EXCHANGES = 3;
+export const MAX_NPC_EXCHANGES = 1;  // 最多 1 轮 NPC 互动，避免对话堆积重复
 
 export function shouldForceConclude(turnCount: number): boolean {
   return turnCount >= COURT_MAX_TURNS;
